@@ -183,6 +183,8 @@ const styles = StyleSheet.create({
     marginTop: (heightsize * 2) / 100,
     backgroundColor: "#fff",
     borderRadius: (widthsize * 2) / 100,
+    borderWidth: 1,
+    borderColor: "#d4d6d9",
     overflow: "hidden",
     padding: (widthsize * 3) / 100,
     shadowColor: "#000",

@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
     height: (widthsize * 10) / 100,
     width: (widthsize * 10) / 100,
     borderRadius: (widthsize * 2) / 100,
+    borderWidth: 1,
+    borderColor: "#d4d6d9",
     backgroundColor: "#fff",
     overflow: "hidden",
     alignItems: "center",
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   },
   otp_text: {
     fontSize: (widthsize * 3.5) / 100,
-    color: "#3a86ff",
+    color: "#424242",
     fontWeight: "700",
     textAlign: "center",
   },
