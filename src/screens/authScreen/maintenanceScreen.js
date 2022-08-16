@@ -13,10 +13,10 @@ import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { widthsize, heightsize } from "../../constant/dimensions";
 import { Ionicons } from "@expo/vector-icons";
-import security_avatar from "../../../assets/images/security_avatar.png";
+import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import colors from "../../constant/colors";
 
-const SecurityGuardScreen = () => {
+const MaintenanceScreen = () => {
   const navigation = useNavigation();
   const [shopId, setShopId] = useState("");
   const [userId, setUserId] = useState("");
@@ -36,7 +36,7 @@ const SecurityGuardScreen = () => {
       {/* image */}
       <View style={styles.avatarView}>
         <Image
-          source={security_avatar}
+          source={maintenance_avatar}
           resizeMode="contain"
           style={styles.avatar}
         />
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SecurityGuardScreen;
+export default MaintenanceScreen;

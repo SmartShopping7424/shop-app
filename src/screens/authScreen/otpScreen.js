@@ -3,21 +3,22 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
-import { widthsize, heightsize } from "../../utils/dimensions";
+import { widthsize, heightsize } from "../../constant/dimensions";
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
-import otp_logo from "../../../assets/images/otp_logo.jpg";
+import colors from "../../constant/colors";
 
 const OtpScreen = (props) => {
   const [value, setValue] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -28,23 +29,32 @@ const OtpScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* image */}
-      <View style={styles.mobileView}>
-        <Image style={styles.mobileLogo} source={otp_logo} />
-      </View>
-
       {/* title */}
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>
-          Enter the OTP received on your Mobile Number
+        <Text style={styles.titleText}>OTP verification</Text>
+        <Text style={styles.subtitleText}>
+          We've sent a verification code to
         </Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={styles.mobileText}>{`+91-${props.mobile}`}</Text>
+          <TouchableOpacity
+            style={{ marginLeft: (widthsize * 2) / 100 }}
+            activeOpacity={0.6}
+            delayPressIn={0}
+            onPress={() => props.change()}
+          >
+            <Text style={styles.changeText}>change</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
       {/* otp input container */}
       <CodeField
         ref={ref}
         {...prop}
         value={value}
         onChangeText={(text) => {
+          setErrMsg("");
           setValue(text.replace(/[^0-9]/g, ""));
         }}
         cellCount={4}
@@ -62,7 +72,13 @@ const OtpScreen = (props) => {
             key={index}
             style={[
               styles.otp_box_container,
-              isFocused && { borderColor: "#3a86ff" },
+              {
+                borderColor: isFocused
+                  ? colors.blue
+                  : errMsg.length > 0
+                  ? colors.red
+                  : colors.textinput_border,
+              },
             ]}
           >
             <Text style={styles.otp_text}>
@@ -72,17 +88,35 @@ const OtpScreen = (props) => {
         )}
       />
 
+      {/* invalid msg */}
+      <View
+        style={[
+          styles.errorTextView,
+          { display: errMsg.length > 0 ? "flex" : "none" },
+        ]}
+      >
+        <Text style={styles.errText}>{errMsg}</Text>
+      </View>
+
       {/* button */}
       <TouchableOpacity
         style={styles.buttonContainer}
         activeOpacity={0.6}
         delayPressIn={0}
-        onPress={() => props.submit(value)}
+        onPress={() => {
+          Keyboard.dismiss();
+          if (value.length != 4) {
+            setErrMsg("Please enter a valid OTP");
+          } else {
+            props.submit();
+          }
+        }}
+        // onPress={() => props.submit(value)}
       >
         {props.otpLoader ? (
           <ActivityIndicator size="small" color="#fff" />
         ) : (
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>Login</Text>
         )}
       </TouchableOpacity>
     </View>
@@ -91,27 +125,33 @@ const OtpScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  mobileView: {
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
-    marginTop: (heightsize * 3) / 100,
-  },
-  mobileLogo: {
-    width: (widthsize * 50) / 100,
-    height: (widthsize * 50) / 100,
+    marginTop: (heightsize * 40) / 100,
   },
   titleView: {
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     width: (widthsize * 90) / 100,
-    marginTop: (heightsize * 2) / 100,
   },
   titleText: {
-    fontSize: (widthsize * 7) / 100,
-    fontWeight: "600",
+    fontSize: (widthsize * 3.8) / 100,
+    fontFamily: "SemiBold",
+    color: colors.black,
+  },
+  subtitleText: {
+    fontSize: (widthsize * 3.2) / 100,
+    fontFamily: "Regular",
+    color: colors.gray,
+  },
+  mobileText: {
+    fontSize: (widthsize * 3.2) / 100,
+    fontFamily: "Regular",
+    color: colors.gray,
+  },
+  changeText: {
+    fontSize: (widthsize * 3.2) / 100,
+    fontFamily: "SemiBold",
+    color: colors.blue,
   },
   otp_container: {
     marginTop: (heightsize * 2) / 100,
@@ -124,7 +164,7 @@ const styles = StyleSheet.create({
     width: (widthsize * 10) / 100,
     borderRadius: (widthsize * 2) / 100,
     borderWidth: 1,
-    borderColor: "#d4d6d9",
+    borderColor: colors.textinput_border,
     backgroundColor: "#fff",
     overflow: "hidden",
     alignItems: "center",
@@ -139,10 +179,20 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   otp_text: {
-    fontSize: (widthsize * 3.5) / 100,
-    color: "#424242",
-    fontWeight: "700",
+    fontSize: (widthsize * 3) / 100,
+    color: colors.black,
+    fontFamily: "Regular",
     textAlign: "center",
+  },
+  errorTextView: {
+    alignSelf: "center",
+    width: (widthsize * 65) / 100,
+    marginTop: (heightsize * 0.9) / 100,
+  },
+  errText: {
+    fontSize: (widthsize * 2.3) / 100,
+    fontFamily: "Regular",
+    color: colors.red,
   },
   buttonContainer: {
     alignSelf: "center",
@@ -150,14 +200,14 @@ const styles = StyleSheet.create({
     width: (widthsize * 90) / 100,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#3a86ff",
+    backgroundColor: colors.blue,
     padding: (widthsize * 3) / 100,
     borderRadius: (widthsize * 2) / 100,
   },
   buttonText: {
-    fontSize: (widthsize * 4) / 100,
-    fontWeight: "500",
-    color: "#fff",
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "SemiBold",
+    color: colors.white,
   },
 });
 
