@@ -10,11 +10,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import Constants from "expo-constants";
 import * as Font from "expo-font";
 import {
-  AuthScreen,
-  HomeScreen,
-  IntroScreen,
-  MaintenanceScreen,
-  SecurityGuardScreen,
+  Intro,
+  OwnerLogin,
+  MaintenanceLogin,
+  SecurityLogin,
+  OwnerHome,
+  SecurityHome,
+  MaintenanceHome,
 } from "./src/screens";
 
 const Stack = createNativeStackNavigator();
@@ -43,26 +45,52 @@ if (TextInput.defaultProps == null) {
 const AuthStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="login"
+      initialRouteName="ownerlogin"
       headerMode="none"
       screenOptions={screenOptions}
     >
-      <Stack.Screen name="login" component={AuthScreen} />
-      <Stack.Screen name="maintenance" component={MaintenanceScreen} />
-      <Stack.Screen name="security" component={SecurityGuardScreen} />
+      <Stack.Screen name="ownerlogin" component={OwnerLogin} />
+      <Stack.Screen name="maintenancelogin" component={MaintenanceLogin} />
+      <Stack.Screen name="securitylogin" component={SecurityLogin} />
     </Stack.Navigator>
   );
 };
 
-// main stack navigator
-const MainStackNavigator = () => {
+// main stack navigator of owner
+const OwnerMainStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="ownerhome"
       headerMode="none"
       screenOptions={screenOptions}
     >
-      <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen name="ownerhome" component={OwnerHome} />
+    </Stack.Navigator>
+  );
+};
+
+// main stack navigator of maintenance
+const MaintenanceMainStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="maintenancehome"
+      headerMode="none"
+      screenOptions={screenOptions}
+    >
+      <Stack.Screen name="maintenancehome" component={MaintenanceHome} />
+    </Stack.Navigator>
+  );
+};
+
+// main stack navigator of security
+const SecurityMainStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="securityhome"
+      headerMode="none"
+      screenOptions={screenOptions}
+    >
+      <Stack.Screen name="securityhome" component={SecurityHome} />
     </Stack.Navigator>
   );
 };
@@ -100,16 +128,8 @@ const App = () => {
     try {
       const value = await AsyncStorage.getItem("page");
       if (value != null) {
-        if (value == "intro") {
-          setValue("auth");
-          setRender(true);
-        } else if (value == "auth") {
-          setValue("main");
-          setRender(true);
-        } else {
-          setValue("intro");
-          setRender(true);
-        }
+        setValue(value);
+        setRender(true);
       } else {
         setValue("intro");
         setRender(true);
@@ -130,9 +150,14 @@ const App = () => {
             headerMode="none"
             screenOptions={screenOptions}
           >
-            <Stack.Screen name="intro" component={IntroScreen} />
+            <Stack.Screen name="intro" component={Intro} />
             <Stack.Screen name="auth" component={AuthStackNavigator} />
-            <Stack.Screen name="main" component={MainStackNavigator} />
+            <Stack.Screen name="ownermain" component={OwnerMainStack} />
+            <Stack.Screen
+              name="maintenancemain"
+              component={MaintenanceMainStack}
+            />
+            <Stack.Screen name="securitymain" component={SecurityMainStack} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (

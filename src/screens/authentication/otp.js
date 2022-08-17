@@ -16,7 +16,7 @@ import {
 } from "react-native-confirmation-code-field";
 import colors from "../../constant/colors";
 
-const OtpScreen = (props) => {
+const Otp = (props) => {
   const [value, setValue] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
@@ -211,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OtpScreen;
+export default Otp;

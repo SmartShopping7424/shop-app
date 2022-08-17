@@ -13,12 +13,12 @@ import {
 import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { widthsize, heightsize } from "../../constant/dimensions";
-import OtpScreen from "./otpScreen";
+import Otp from "./otp";
 import colors from "../../constant/colors";
 
 const mobile_number_format = /^[6-9][0-9]{9}$/;
 
-const MobileScreen = (props) => {
+const Mobile = (props) => {
   const navigation = useNavigation();
   const [mobile, setMobile] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -93,24 +93,25 @@ const MobileScreen = (props) => {
   // if view is otp return otp view
   if (view == "otp") {
     return (
-      <OtpScreen
+      <Otp
         mobile={mobile}
         otpLoader={otpLoader}
         submit={() => {
           Keyboard.dismiss();
           setOtpLoader(true);
           setTimeout(async () => {
-            await AsyncStorage.setItem("page", "auth");
+            await AsyncStorage.setItem("page", "ownermain");
             setOtpLoader(false);
             const resetAction = CommonActions.reset({
               index: 0,
-              routes: [{ name: "main" }],
+              routes: [{ name: "ownermain" }],
             });
             navigation.dispatch(resetAction);
           }, 2000);
         }}
         change={() => {
           setView("mobile");
+          props.setShow(true);
         }}
 
         // submit={(value) => {
@@ -139,7 +140,7 @@ const MobileScreen = (props) => {
           <Text style={styles.countryCodeText}>+91 -</Text>
           <TextInput
             placeholder="Enter Mobile Number"
-            placeholderTextColor="#bdbdbd"
+            placeholderTextColor={colors.gray}
             maxLength={10}
             keyboardType="number-pad"
             value={mobile}
@@ -256,4 +257,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MobileScreen;
+export default Mobile;

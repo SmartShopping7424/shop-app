@@ -5,19 +5,19 @@ import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import { heightsize, widthsize } from "../../constant/dimensions";
-import Screen1 from "./screen1";
-import Screen2 from "./screen2";
-import Screen3 from "./screen3";
-import Screen4 from "./screen4";
+import Intro1 from "./intro1";
+import Intro2 from "./intro2";
+import Intro3 from "./intro3";
+import Intro4 from "./intro4";
 import colors from "../../constant/colors";
 
-const IntroScreen = () => {
+const Intro = () => {
   const navigation = useNavigation();
 
   // on complete the intro page
   const onDone = async () => {
     try {
-      await AsyncStorage.setItem("page", "intro");
+      await AsyncStorage.setItem("page", "auth");
       const resetAction = CommonActions.reset({
         index: 0,
         routes: [{ name: "auth" }],
@@ -34,13 +34,13 @@ const IntroScreen = () => {
       renderItem={({ index }) => (
         <View style={styles.container}>
           {index == 0 ? (
-            <Screen1 />
+            <Intro1 />
           ) : index == 1 ? (
-            <Screen2 />
+            <Intro2 />
           ) : index == 2 ? (
-            <Screen3 />
+            <Intro3 />
           ) : index == 3 ? (
-            <Screen4 />
+            <Intro4 />
           ) : (
             <></>
           )}
@@ -71,8 +71,6 @@ const IntroScreen = () => {
   );
 };
 
-export default IntroScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -96,3 +94,5 @@ const styles = StyleSheet.create({
     height: (heightsize * 0.5) / 100,
   },
 });
+
+export default Intro;

@@ -15,9 +15,9 @@ import left_circle from "../../../assets/images/left_circle.png";
 import right_circle from "../../../assets/images/right_circle.png";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import security_avatar from "../../../assets/images/security_avatar.png";
-import MobileScreen from "./mobileScreen";
+import Mobile from "./mobile";
 
-const AuthScreen = () => {
+const OwnerLogin = () => {
   const navigation = useNavigation();
   const [show, setShow] = useState(true);
 
@@ -32,7 +32,7 @@ const AuthScreen = () => {
         {/* logo */}
 
         {/* login with mobile */}
-        <MobileScreen setShow={(value) => setShow(value)} />
+        <Mobile setShow={(value) => setShow(value)} />
 
         {/* term and condition text */}
         <View
@@ -44,15 +44,7 @@ const AuthScreen = () => {
           <Text style={styles.titleText}>By continuing , you agree to our</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={styles.subtitleText}>Terms and Conditions</Text>
-            <Text
-              style={{
-                marginLeft: (widthsize * 1) / 100,
-                marginRight: (widthsize * 1) / 100,
-                color: colors.gray,
-              }}
-            >
-              &
-            </Text>
+            <Text style={styles.subtitleAndSign}>&</Text>
             <Text style={styles.subtitleText}>Privacy Policy</Text>
           </View>
         </View>
@@ -67,9 +59,9 @@ const AuthScreen = () => {
             styles.maintenanceLogoView,
             { display: show ? "flex" : "none" },
           ]}
-          activeOpacity={0.5}
+          activeOpacity={0.6}
           delayPressIn={0}
-          onPress={() => navigation.navigate("maintenance")}
+          onPress={() => navigation.navigate("maintenancelogin")}
         >
           <Image
             source={maintenance_avatar}
@@ -88,9 +80,9 @@ const AuthScreen = () => {
         />
         <TouchableOpacity
           style={[styles.securityLogoView, { display: show ? "flex" : "none" }]}
-          activeOpacity={0.5}
+          activeOpacity={0.6}
           delayPressIn={0}
-          onPress={() => navigation.navigate("security")}
+          onPress={() => navigation.navigate("securitylogin")}
         >
           <Image
             source={security_avatar}
@@ -122,11 +114,21 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 2.2) / 100,
     fontFamily: "Regular",
     color: colors.gray,
+    textAlign: "center",
+  },
+  subtitleAndSign: {
+    marginLeft: (widthsize * 1) / 100,
+    marginRight: (widthsize * 1) / 100,
+    color: colors.gray,
+    fontFamily: "Regular",
+    textAlign: "center",
+    fontSize: (widthsize * 2.2) / 100,
   },
   subtitleText: {
     fontSize: (widthsize * 2.2) / 100,
     fontFamily: "Regular",
     color: colors.blue,
+    textAlign: "center",
   },
   leftCircle: {
     position: "absolute",
@@ -168,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+export default OwnerLogin;

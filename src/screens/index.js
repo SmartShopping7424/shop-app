@@ -1,17 +1,17 @@
-import IntroScreen from "./introScreen/introScreen";
-import AuthScreen from "./authScreen/authScreen";
-import MobileScreen from "./authScreen/mobileScreen";
-import OtpScreen from "./authScreen/otpScreen";
-import HomeScreen from "./homeScreen/homeScreen";
-import MaintenanceScreen from "./authScreen/maintenanceScreen";
-import SecurityGuardScreen from "./authScreen/securityGuardScreen";
+import Intro from "./intro/intro";
+import OwnerLogin from "./authentication/ownerLogin";
+import MaintenanceLogin from "./authentication/maintenanceLogin";
+import SecurityLogin from "./authentication/securityLogin";
+import OwnerHome from "./owner/ownerHome/ownerHome";
+import MaintenanceHome from "./maintenance/maintenanceHome/maintenanceHome";
+import SecurityHome from "./security/securityHome/securityHome";
 
 export {
-  IntroScreen,
-  AuthScreen,
-  MobileScreen,
-  OtpScreen,
-  MaintenanceScreen,
-  SecurityGuardScreen,
-  HomeScreen,
+  Intro,
+  OwnerLogin,
+  MaintenanceLogin,
+  SecurityLogin,
+  OwnerHome,
+  MaintenanceHome,
+  SecurityHome,
 };

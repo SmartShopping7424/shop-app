@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import colors from "../../constant/colors";
 
-const MaintenanceScreen = () => {
+const MaintenanceLogin = () => {
   const navigation = useNavigation();
   const [shopId, setShopId] = useState("");
   const [userId, setUserId] = useState("");
@@ -116,11 +116,11 @@ const MaintenanceScreen = () => {
           setLoader(true);
           if (shopVerify) {
             setTimeout(async () => {
-              await AsyncStorage.setItem("page", "auth");
+              await AsyncStorage.setItem("page", "maintenancemain");
               setLoader(false);
               const resetAction = CommonActions.reset({
                 index: 0,
-                routes: [{ name: "main" }],
+                routes: [{ name: "maintenancemain" }],
               });
               navigation.dispatch(resetAction);
             }, 2000);
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MaintenanceScreen;
+export default MaintenanceLogin;

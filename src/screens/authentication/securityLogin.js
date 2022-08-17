@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import security_avatar from "../../../assets/images/security_avatar.png";
 import colors from "../../constant/colors";
 
-const SecurityGuardScreen = () => {
+const SecurityLogin = () => {
   const navigation = useNavigation();
   const [shopId, setShopId] = useState("");
   const [userId, setUserId] = useState("");
@@ -116,11 +116,11 @@ const SecurityGuardScreen = () => {
           setLoader(true);
           if (shopVerify) {
             setTimeout(async () => {
-              await AsyncStorage.setItem("page", "auth");
+              await AsyncStorage.setItem("page", "securitymain");
               setLoader(false);
               const resetAction = CommonActions.reset({
                 index: 0,
-                routes: [{ name: "main" }],
+                routes: [{ name: "securitymain" }],
               });
               navigation.dispatch(resetAction);
             }, 2000);
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SecurityGuardScreen;
+export default SecurityLogin;

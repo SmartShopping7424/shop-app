@@ -1,19 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import colors from "../../constant/colors";
-import intro_page1 from "../../../assets/images/intro_page1.png";
+import intro_page3 from "../../../assets/images/intro_page3.png";
 import { heightsize, widthsize } from "../../constant/dimensions";
 
-const Screen1 = () => {
+const Intro3 = () => {
   return (
     <View style={styles.container}>
       {/* image background */}
-      <ImageBackground source={intro_page1} style={styles.imageBackground}>
+      <ImageBackground source={intro_page3} style={styles.imageBackground}>
         {/* description */}
-        <View style={styles.descriptionView}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.subTitle}>Description</Text>
-        </View>
+        <Text style={styles.title}>Title</Text>
+        <Text style={styles.subTitle}>Description</Text>
       </ImageBackground>
     </View>
   );
@@ -30,22 +28,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  descriptionView: {
-    position: "absolute",
-    bottom: (heightsize * 20) / 100,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   title: {
+    position: "absolute",
+    right: (widthsize * 25) / 100,
     fontSize: (widthsize * 4) / 100,
     fontFamily: "SemiBold",
     color: colors.black,
   },
   subTitle: {
+    position: "absolute",
+    bottom: (heightsize * 20) / 100,
     fontSize: (widthsize * 3) / 100,
     fontFamily: "Regular",
     color: colors.gray,
   },
 });
 
-export default Screen1;
+export default Intro3;

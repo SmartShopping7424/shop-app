@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import colors from "../../constant/colors";
-import intro_page3 from "../../../assets/images/intro_page3.png";
+import intro_page2 from "../../../assets/images/intro_page2.png";
 import { heightsize, widthsize } from "../../constant/dimensions";
 
-const Screen3 = () => {
+const Intro2 = () => {
   return (
     <View style={styles.container}>
       {/* image background */}
-      <ImageBackground source={intro_page3} style={styles.imageBackground}>
+      <ImageBackground source={intro_page2} style={styles.imageBackground}>
         {/* description */}
         <Text style={styles.title}>Title</Text>
         <Text style={styles.subTitle}>Description</Text>
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Screen3;
+export default Intro2;

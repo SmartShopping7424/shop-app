@@ -3,19 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HomeScreen = () => {
+const MaintenanceHome = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View>
-        <Text>Home page</Text>
+        <Text>Maintenance Home page</Text>
       </View>
 
       <TouchableOpacity
         style={{ marginTop: 200 }}
         onPress={async () => {
-          await AsyncStorage.setItem("page", "intro");
+          await AsyncStorage.setItem("page", "auth");
           const resetAction = CommonActions.reset({
             index: 0,
             routes: [{ name: "auth" }],
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default MaintenanceHome;

@@ -4,7 +4,7 @@ import colors from "../../constant/colors";
 import intro_page4 from "../../../assets/images/intro_page4.png";
 import { heightsize, widthsize } from "../../constant/dimensions";
 
-const Screen4 = () => {
+const Intro4 = () => {
   return (
     <View style={styles.container}>
       {/* image background */}
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Screen4;
+export default Intro4;
