@@ -5,6 +5,9 @@ import BarcodeMask from "react-native-barcode-mask";
 import { AntDesign } from "@expo/vector-icons";
 import { heightsize, widthsize } from "../../constant/dimensions";
 import colors from "../../constant/colors";
+import { StatusBar } from "expo-status-bar";
+
+const bgColor = "rgba(0,0,0,0.8)";
 
 const CameraScan = (props) => {
   // real time update props
@@ -12,27 +15,15 @@ const CameraScan = (props) => {
 
   // scan the product bar code
   const handleBarCodeScanned = async ({ data }) => {
-    setTimeout(() => {
-      props.onData(data);
-    }, 1000);
+    props.onData(data);
   };
 
   return (
     <View style={styles.cameraContainer}>
-      <Camera
-        style={styles.cameraStyle}
-        onBarCodeScanned={handleBarCodeScanned}
-      >
-        <BarcodeMask
-          edgeColor={colors.white}
-          showAnimatedLine
-          lineAnimationDuration={1300}
-          animatedLineColor={colors.blue}
-          width={(widthsize * 63) / 100}
-          height={(widthsize * 63) / 100}
-        />
+      <StatusBar backgroundColor={bgColor} animated={true} />
 
-        {/* close button */}
+      {/* close button */}
+      <View style={styles.closeIconContainer}>
         <TouchableOpacity
           style={styles.closeIconView}
           activeOpacity={0.6}
@@ -42,10 +33,31 @@ const CameraScan = (props) => {
           <AntDesign
             name="close"
             size={(widthsize * 5) / 100}
-            color={colors.red}
+            color={colors.blue}
           />
         </TouchableOpacity>
-      </Camera>
+      </View>
+
+      {/* camera view */}
+      <View style={styles.cameraView}>
+        <Camera
+          style={styles.cameraStyle}
+          onBarCodeScanned={handleBarCodeScanned}
+        >
+          <BarcodeMask
+            width={(widthsize * 88) / 100}
+            height={(heightsize * 48) / 100}
+            edgeColor="transparent"
+            backgroundColor="transparent"
+            showAnimatedLine
+            animatedLineWidth={(widthsize * 80) / 100}
+            animatedLineHeight={(heightsize * 0.2) / 100}
+            lineAnimationDuration={1500}
+            animatedLineColor={colors.blue}
+            useNativeDriver
+          />
+        </Camera>
+      </View>
     </View>
   );
 };
@@ -57,19 +69,26 @@ const styles = StyleSheet.create({
     height: heightsize,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "transparent",
+    backgroundColor: bgColor,
+  },
+  cameraView: {
+    width: (widthsize * 90) / 100,
+    height: (heightsize * 50) / 100,
+    borderRadius: (widthsize * 2) / 100,
+    overflow: "hidden",
   },
   cameraStyle: {
+    flex: 1,
+  },
+  closeIconContainer: {
     width: (widthsize * 90) / 100,
-    height: (widthsize * 90) / 100,
+    alignItems: "flex-end",
+    marginBottom: (heightsize * 1) / 100,
   },
   closeIconView: {
-    position: "absolute",
-    top: (heightsize * 2) / 100,
-    right: (widthsize * 2) / 100,
-    width: (widthsize * 7) / 100,
-    height: (widthsize * 7) / 100,
-    borderRadius: (widthsize * 5) / 100,
+    width: (widthsize * 8) / 100,
+    height: (widthsize * 8) / 100,
+    borderRadius: (widthsize * 4) / 100,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
