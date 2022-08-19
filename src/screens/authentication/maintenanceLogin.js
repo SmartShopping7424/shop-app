@@ -12,9 +12,11 @@ import {
 import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { widthsize, heightsize } from "../../constant/dimensions";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import colors from "../../constant/colors";
+import { CameraScan } from "../../component";
+import { getCameraPermission } from "../../utils/helper";
 
 const MaintenanceLogin = () => {
   const navigation = useNavigation();
@@ -24,6 +26,10 @@ const MaintenanceLogin = () => {
   const [showPass, setShowPass] = useState(false);
   const [shopVerify, setShopVerify] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [showScanner, setShowScaner] = useState(false);
+  const [shopIdErr, setShopIdErr] = useState("");
+  const [userIdErr, setUserIdErr] = useState("");
+  const [passErr, setPassErr] = useState("");
 
   // verify shop id
   // const onVerify = async () => {};
@@ -47,7 +53,11 @@ const MaintenanceLogin = () => {
         style={[
           styles.textInputView,
           {
-            backgroundColor: shopVerify ? "#ededed" : "#fff",
+            backgroundColor: shopVerify
+              ? colors.textinput_border
+              : colors.white,
+            borderColor:
+              shopIdErr.length > 0 ? colors.red : colors.textinput_border,
           },
         ]}
       >
@@ -57,32 +67,84 @@ const MaintenanceLogin = () => {
           placeholderTextColor={colors.gray}
           autoCapitalize="characters"
           value={shopId}
-          onChangeText={(text) => setShopId(text)}
+          onChangeText={(text) => {
+            setShopIdErr("");
+            setShopId(text);
+          }}
           style={styles.textInput}
         />
+        <TouchableOpacity
+          style={{ display: shopVerify ? "none" : "flex" }}
+          activeOpacity={0.6}
+          delayPressIn={0}
+          onPress={async () => {
+            Keyboard.dismiss();
+            const permission = await getCameraPermission();
+            if (permission) {
+              setShowScaner(true);
+            }
+          }}
+        >
+          <AntDesign
+            name="scan1"
+            size={(widthsize * 5) / 100}
+            color={colors.blue}
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* invalid shop id err msg */}
+      <View
+        style={[
+          styles.errorTextView,
+          { display: shopIdErr.length > 0 ? "flex" : "none" },
+        ]}
+      >
+        <Text style={styles.errText}>{shopIdErr}</Text>
       </View>
 
       {/*  user id text input */}
       <View
         style={[
           styles.textInputView,
-          { display: shopVerify ? "flex" : "none" },
+          {
+            display: shopVerify ? "flex" : "none",
+            borderColor:
+              userIdErr.length > 0 ? colors.red : colors.textinput_border,
+          },
         ]}
       >
         <TextInput
           placeholder="User ID"
           placeholderTextColor={colors.gray}
           value={userId}
-          onChangeText={(text) => setUserId(text)}
+          onChangeText={(text) => {
+            setUserIdErr("");
+            setUserId(text);
+          }}
           style={styles.textInput}
         />
+      </View>
+
+      {/* invalid user id err msg */}
+      <View
+        style={[
+          styles.errorTextView,
+          { display: userIdErr.length > 0 ? "flex" : "none" },
+        ]}
+      >
+        <Text style={styles.errText}>{userIdErr}</Text>
       </View>
 
       {/*  password text input */}
       <View
         style={[
           styles.textInputView,
-          { display: shopVerify ? "flex" : "none" },
+          {
+            display: shopVerify ? "flex" : "none",
+            borderColor:
+              passErr.length > 0 ? colors.red : colors.textinput_border,
+          },
         ]}
       >
         <TextInput
@@ -90,7 +152,10 @@ const MaintenanceLogin = () => {
           placeholderTextColor={colors.gray}
           value={password}
           secureTextEntry={!showPass}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text) => {
+            setPassErr("");
+            setPassword(text);
+          }}
           style={styles.textInput}
         />
         <TouchableOpacity
@@ -100,10 +165,22 @@ const MaintenanceLogin = () => {
         >
           <Ionicons
             name={showPass ? "ios-eye-outline" : "ios-eye-off-outline"}
-            size={24}
-            color="black"
+            size={(widthsize * 5) / 100}
+            color={colors.blue}
           />
         </TouchableOpacity>
+      </View>
+
+      {/* invalid pass err msg */}
+      <View
+        style={[
+          styles.errorTextView,
+          {
+            display: passErr.length > 0 ? "flex" : "none",
+          },
+        ]}
+      >
+        <Text style={styles.errText}>{passErr}</Text>
       </View>
 
       {/* button */}
@@ -115,20 +192,33 @@ const MaintenanceLogin = () => {
           Keyboard.dismiss();
           setLoader(true);
           if (shopVerify) {
-            setTimeout(async () => {
-              await AsyncStorage.setItem("page", "maintenancemain");
+            if (userId.length == 0) {
+              setUserIdErr("Please enter a valid user id");
               setLoader(false);
-              const resetAction = CommonActions.reset({
-                index: 0,
-                routes: [{ name: "maintenancemain" }],
-              });
-              navigation.dispatch(resetAction);
-            }, 2000);
+            } else if (password.length == 0) {
+              setPassErr("Please enter a valid password");
+              setLoader(false);
+            } else {
+              setTimeout(async () => {
+                await AsyncStorage.setItem("page", "maintenancemain");
+                setLoader(false);
+                const resetAction = CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: "maintenancemain" }],
+                });
+                navigation.dispatch(resetAction);
+              }, 2000);
+            }
           } else {
-            setTimeout(() => {
+            if (shopId.length == 0) {
+              setShopIdErr("Please enter a valid shop id");
               setLoader(false);
-              setShopVerify(true);
-            }, 2000);
+            } else {
+              setTimeout(() => {
+                setLoader(false);
+                setShopVerify(true);
+              }, 2000);
+            }
           }
         }}
         // onPress={() => {
@@ -148,6 +238,21 @@ const MaintenanceLogin = () => {
           </Text>
         )}
       </TouchableOpacity>
+
+      {/* if show scanner */}
+      {showScanner ? (
+        <CameraScan
+          onClose={() => {
+            setShowScaner(false);
+          }}
+          onData={(data) => {
+            setShowScaner(false);
+            setShopId(data);
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -206,19 +311,28 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: "Regular",
   },
+  errorTextView: {
+    alignSelf: "center",
+    width: (widthsize * 90) / 100,
+    marginTop: (heightsize * 0.9) / 100,
+  },
+  errText: {
+    fontSize: (widthsize * 2.3) / 100,
+    fontFamily: "Regular",
+    color: colors.red,
+  },
   buttonContainer: {
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
+    height: (heightsize * 4.5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,
-    padding: (widthsize * 3.5) / 100,
     borderRadius: (widthsize * 2) / 100,
   },
   buttonText: {
     fontSize: (widthsize * 3) / 100,
-    fontWeight: "500",
     color: colors.white,
     fontFamily: "SemiBold",
   },

@@ -1,3 +1,5 @@
+import { Camera } from "expo-camera";
+
 // get random number of any length
 export function randomNumber(len) {
   var x = "";
@@ -5,4 +7,14 @@ export function randomNumber(len) {
     x += Math.floor(Math.random() * 10);
   }
   return x;
+}
+
+// get camera permission
+export async function getCameraPermission() {
+  const { status } = await Camera.requestCameraPermissionsAsync();
+  // if has access
+  if (status == "granted") {
+    return true;
+  }
+  return false;
 }

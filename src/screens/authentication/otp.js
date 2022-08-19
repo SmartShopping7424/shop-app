@@ -25,6 +25,7 @@ const Otp = (props) => {
     setValue,
   });
 
+  // update props
   useEffect(() => {}, [props]);
 
   return (
@@ -125,7 +126,7 @@ const Otp = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: (heightsize * 40) / 100,
+    marginTop: (heightsize * 5) / 100,
   },
   titleView: {
     alignSelf: "center",
@@ -198,10 +199,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
+    height: (heightsize * 4.5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,
-    padding: (widthsize * 3) / 100,
     borderRadius: (widthsize * 2) / 100,
   },
   buttonText: {

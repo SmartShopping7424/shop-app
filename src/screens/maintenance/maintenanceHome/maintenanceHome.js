@@ -1,30 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { heightsize, widthsize } from "../../../constant/dimensions";
+import colors from "../../../constant/colors";
+import { CameraScan, LogoutAlert } from "../../../component";
+import { getCameraPermission } from "../../../utils/helper";
 
 const MaintenanceHome = () => {
   const navigation = useNavigation();
+  const [showLogout, setShowLogout] = useState(false);
+  const [showScanner, setShowScaner] = useState(false);
+
+  // logout function
+  const onLogout = async () => {
+    await AsyncStorage.setItem("page", "auth");
+    const resetAction = CommonActions.reset({
+      index: 0,
+      routes: [{ name: "auth" }],
+    });
+    navigation.dispatch(resetAction);
+  };
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Maintenance Home page</Text>
-      </View>
-
+      {/* ean product */}
       <TouchableOpacity
-        style={{ marginTop: 200 }}
+        style={styles.buttonView}
+        activeOpacity={0.6}
+        delayPressIn={0}
         onPress={async () => {
-          await AsyncStorage.setItem("page", "auth");
-          const resetAction = CommonActions.reset({
-            index: 0,
-            routes: [{ name: "auth" }],
-          });
-          navigation.dispatch(resetAction);
+          const permission = await getCameraPermission();
+          if (permission) {
+            setShowScaner(true);
+          }
         }}
       >
-        <Text>For Log Out Press Here</Text>
+        <Text style={styles.buttonText}>EAN Product</Text>
       </TouchableOpacity>
+
+      {/* create barcode */}
+      <TouchableOpacity
+        style={[styles.buttonView, { marginTop: (heightsize * 2) / 100 }]}
+        activeOpacity={0.6}
+        delayPressIn={0}
+        onPress={() => null}
+      >
+        <Text style={styles.buttonText}>Create Barcode</Text>
+      </TouchableOpacity>
+
+      {/* logout icon */}
+      <TouchableOpacity
+        style={styles.logoutView}
+        activeOpacity={0.6}
+        delayPressIn={0}
+        onPress={() => setShowLogout(true)}
+      >
+        <MaterialCommunityIcons
+          name="logout"
+          size={(widthsize * 5) / 100}
+          color={colors.blue}
+        />
+      </TouchableOpacity>
+
+      {/* logout alert */}
+      {showLogout ? (
+        <LogoutAlert
+          yes={() => {
+            setShowLogout(false);
+            onLogout();
+          }}
+          no={() => setShowLogout(false)}
+        />
+      ) : (
+        <></>
+      )}
+
+      {/* if show scanner */}
+      {showScanner ? (
+        <CameraScan
+          onClose={() => {
+            setShowScaner(false);
+          }}
+          onData={(data) => {
+            setShowScaner(false);
+            console.log(data);
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -35,6 +101,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  logoutView: {
+    position: "absolute",
+    top: (heightsize * 5) / 100,
+    right: (widthsize * 5) / 100,
+    width: (widthsize * 12) / 100,
+    height: (widthsize * 12) / 100,
+    borderRadius: (widthsize * 6) / 100,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    backgroundColor: colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  buttonView: {
+    alignSelf: "center",
+    marginTop: (heightsize * 2) / 100,
+    width: (widthsize * 50) / 100,
+    height: (heightsize * 4.5) / 100,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.blue,
+    borderRadius: (widthsize * 2) / 100,
+  },
+  buttonText: {
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "SemiBold",
+    color: colors.white,
   },
 });
 

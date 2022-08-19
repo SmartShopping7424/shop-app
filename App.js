@@ -18,6 +18,7 @@ import {
   SecurityHome,
   MaintenanceHome,
 } from "./src/screens";
+import colors from "./src/constant/colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -142,7 +143,7 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor={"#fff"} />
+      <StatusBar backgroundColor={colors.white} animated />
       {render ? (
         <NavigationContainer>
           <Stack.Navigator

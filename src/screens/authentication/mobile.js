@@ -27,7 +27,12 @@ const Mobile = (props) => {
   const [loader, setLoader] = useState(false);
   const [otpLoader, setOtpLoader] = useState(false);
 
-  useEffect(() => {}, [view]);
+  // update errMsg and view value
+  useEffect(() => {
+    if (props.err == false) {
+      setErrMsg("");
+    }
+  }, [view, props, errMsg]);
 
   // sign up function
   // const onSignUp = async () => {
@@ -198,7 +203,7 @@ const Mobile = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: (heightsize * 40) / 100,
+    marginTop: (heightsize * 5) / 100,
   },
   textInputView: {
     flexDirection: "row",
@@ -244,10 +249,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
+    height: (heightsize * 4.5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,
-    padding: (widthsize * 3) / 100,
     borderRadius: (widthsize * 2) / 100,
   },
   buttonText: {
