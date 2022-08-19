@@ -30,9 +30,10 @@ const Mobile = (props) => {
   // update errMsg and view value
   useEffect(() => {
     if (props.err == false) {
+      setMobile("");
       setErrMsg("");
     }
-  }, [view, props, errMsg]);
+  }, [view, props, errMsg, mobile]);
 
   // sign up function
   // const onSignUp = async () => {

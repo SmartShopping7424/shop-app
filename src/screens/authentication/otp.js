@@ -24,9 +24,24 @@ const Otp = (props) => {
     value,
     setValue,
   });
-
+  const [seconds, setSeconds] = useState(59);
   // update props
   useEffect(() => {}, [props]);
+
+  // otp timer function
+  useEffect(() => {
+    let myInterval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+      if (seconds === 0) {
+        clearInterval(myInterval);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
 
   return (
     <View style={styles.container}>
@@ -120,6 +135,29 @@ const Otp = (props) => {
           <Text style={styles.buttonText}>Login</Text>
         )}
       </TouchableOpacity>
+
+      {/* resend timer */}
+      <View style={styles.timerView}>
+        {seconds == 0 ? (
+          <Text
+            style={[
+              styles.timerText,
+              { color: colors.blue, fontFamily: "SemiBold" },
+            ]}
+            onPress={() => setSeconds(59)}
+          >
+            Resend OTP
+          </Text>
+        ) : (
+          <Text style={styles.timerText}>
+            Resend OTP in{" "}
+            <Text style={{ color: colors.blue, fontFamily: "SemiBold" }}>
+              {seconds < 10 ? `0${seconds}` : seconds}
+            </Text>{" "}
+            seconds
+          </Text>
+        )}
+      </View>
     </View>
   );
 };
@@ -209,6 +247,18 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "SemiBold",
     color: colors.white,
+  },
+  timerView: {
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    width: (widthsize * 90) / 100,
+    marginTop: (heightsize * 3) / 100,
+  },
+  timerText: {
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "Regular",
+    color: colors.gray,
   },
 });
 

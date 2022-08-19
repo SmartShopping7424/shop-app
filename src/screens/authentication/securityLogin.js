@@ -73,24 +73,43 @@ const SecurityLogin = () => {
           }}
           style={styles.textInput}
         />
-        <TouchableOpacity
-          style={{ display: shopVerify ? "none" : "flex" }}
-          activeOpacity={0.6}
-          delayPressIn={0}
-          onPress={async () => {
-            Keyboard.dismiss();
-            const permission = await getCameraPermission();
-            if (permission) {
-              setShowScaner(true);
-            }
-          }}
-        >
-          <AntDesign
-            name="scan1"
-            size={(widthsize * 5) / 100}
-            color={colors.blue}
-          />
-        </TouchableOpacity>
+        {shopVerify ? (
+          <TouchableOpacity
+            activeOpacity={0.6}
+            delayPressIn={0}
+            onPress={async () => {
+              Keyboard.dismiss();
+              setShopId("");
+              setUserId("");
+              setPassword("");
+              setShopIdErr("");
+              setUserIdErr("");
+              setPassErr("");
+              setShopVerify(false);
+            }}
+          >
+            <Text style={styles.changeText}>Change</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{ display: shopVerify ? "none" : "flex" }}
+            activeOpacity={0.6}
+            delayPressIn={0}
+            onPress={async () => {
+              Keyboard.dismiss();
+              const permission = await getCameraPermission();
+              if (permission) {
+                setShowScaner(true);
+              }
+            }}
+          >
+            <AntDesign
+              name="scan1"
+              size={(widthsize * 5) / 100}
+              color={colors.blue}
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* invalid shop id err msg */}
@@ -336,6 +355,11 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     color: colors.white,
     fontFamily: "SemiBold",
+  },
+  changeText: {
+    fontSize: (widthsize * 3) / 100,
+    color: colors.blue,
+    fontFamily: "Medium",
   },
 });
 
