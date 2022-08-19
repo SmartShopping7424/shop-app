@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   buttonTextNo: {
     fontSize: (widthsize * 3) / 100,
-    color: colors.black,
+    color: colors.blue,
     fontFamily: "Regular",
   },
 });

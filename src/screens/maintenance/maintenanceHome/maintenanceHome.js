@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, CommonActions } from "@react-navigation/core";
@@ -12,6 +12,31 @@ const MaintenanceHome = () => {
   const navigation = useNavigation();
   const [showLogout, setShowLogout] = useState(false);
   const [showScanner, setShowScaner] = useState(false);
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const value = await AsyncStorage.getItem("maintenance_user_id");
+        if (value != null) {
+          setUserId(value);
+        } else {
+          setUserId("Maintenance");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, [userId]);
+
+  // remove all local storage
+  const clearAllData = async () => {
+    await AsyncStorage.getAllKeys().then(async (keys) => {
+      await AsyncStorage.multiRemove(keys).then(() => {
+        onLogout();
+      });
+    });
+  };
 
   // logout function
   const onLogout = async () => {
@@ -50,6 +75,21 @@ const MaintenanceHome = () => {
         <Text style={styles.buttonText}>Create Barcode</Text>
       </TouchableOpacity>
 
+      {/* maintenance details */}
+      <View style={styles.detailsView}>
+        <Text style={styles.detailsText}>
+          <Text
+            style={{
+              color: colors.blue,
+              fontFamily: "SemiBold",
+            }}
+          >
+            Hello!{"  "}
+          </Text>
+          {userId.length > 15 ? userId.substring(0, 14) + "..." : userId}
+        </Text>
+      </View>
+
       {/* logout icon */}
       <TouchableOpacity
         style={styles.logoutView}
@@ -60,7 +100,7 @@ const MaintenanceHome = () => {
         <MaterialCommunityIcons
           name="logout"
           size={(widthsize * 5) / 100}
-          color={colors.blue}
+          color={colors.white}
         />
       </TouchableOpacity>
 
@@ -69,7 +109,7 @@ const MaintenanceHome = () => {
         <LogoutAlert
           yes={() => {
             setShowLogout(false);
-            onLogout();
+            clearAllData();
           }}
           no={() => setShowLogout(false)}
         />
@@ -112,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    backgroundColor: colors.white,
+    backgroundColor: colors.blue,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -136,6 +176,33 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "SemiBold",
     color: colors.white,
+  },
+  detailsView: {
+    position: "absolute",
+    top: (heightsize * 5) / 100,
+    left: 0,
+    width: (widthsize * 40) / 100,
+    padding: (widthsize * 3) / 100,
+    paddingRight: 0,
+    paddingLeft: (widthsize * 1.5) / 100,
+    borderTopRightRadius: (widthsize * 3) / 100,
+    borderBottomRightRadius: (widthsize * 3) / 100,
+    overflow: "hidden",
+    backgroundColor: colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  detailsText: {
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "Regular",
+    textAlign: "left",
+    color: colors.black,
   },
 });
 

@@ -201,6 +201,7 @@ const SecurityLogin = () => {
             } else {
               setTimeout(async () => {
                 await AsyncStorage.setItem("page", "securitymain");
+                await AsyncStorage.setItem("security_user_id", userId);
                 setLoader(false);
                 const resetAction = CommonActions.reset({
                   index: 0,

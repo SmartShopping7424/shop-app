@@ -201,6 +201,7 @@ const MaintenanceLogin = () => {
             } else {
               setTimeout(async () => {
                 await AsyncStorage.setItem("page", "maintenancemain");
+                await AsyncStorage.setItem("maintenance_user_id", userId);
                 setLoader(false);
                 const resetAction = CommonActions.reset({
                   index: 0,
