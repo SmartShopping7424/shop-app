@@ -15,25 +15,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { widthsize, heightsize } from "../../constant/dimensions";
 import Otp from "./otp";
 import colors from "../../constant/colors";
-
-const mobile_number_format = /^[6-9][0-9]{9}$/;
+import { ErrorText } from "../../component";
+import { ownerLoginValidation } from "../../validators/owner/ownerLoginValidator/ownerLoginValidator";
 
 const Mobile = (props) => {
   const navigation = useNavigation();
   const [mobile, setMobile] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [error, setError] = useState("");
   const [view, setView] = useState("mobile");
   // const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(false);
   const [otpLoader, setOtpLoader] = useState(false);
 
-  // update errMsg and view value
   useEffect(() => {
     if (props.err == false) {
       setMobile("");
-      setErrMsg("");
+      setError("");
     }
-  }, [view, props, errMsg, mobile]);
+  }, [view, props, error, mobile]);
 
   // sign up function
   // const onSignUp = async () => {
@@ -119,7 +118,6 @@ const Mobile = (props) => {
           setView("mobile");
           props.setShow(true);
         }}
-
         // submit={(value) => {
         //   Keyboard.dismiss();
         //   setOtpLoader(true);
@@ -139,7 +137,7 @@ const Mobile = (props) => {
             styles.textInputView,
             {
               borderColor:
-                errMsg.length > 0 ? colors.red : colors.textinput_border,
+                error.length > 0 ? colors.red : colors.textinput_border,
             },
           ]}
         >
@@ -151,31 +149,25 @@ const Mobile = (props) => {
             keyboardType="number-pad"
             value={mobile}
             onChangeText={(text) => {
-              setErrMsg("");
+              setError("");
               setMobile(text.replace(/[^0-9]/g, ""));
             }}
             style={styles.textInput}
           />
         </View>
 
-        {/* invalid msg */}
-        <View
-          style={[
-            styles.errorTextView,
-            { display: errMsg.length > 0 ? "flex" : "none" },
-          ]}
-        >
-          <Text style={styles.errText}>{errMsg}</Text>
-        </View>
+        {/* error msg */}
+        <ErrorText err={error} show={error.length > 0 ? true : false} />
 
         {/* button */}
         <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.6}
           delayPressIn={0}
-          onPress={() => {
-            Keyboard.dismiss();
-            if (mobile_number_format.test(mobile)) {
+          onPress={async () => {
+            const err = await ownerLoginValidation({ mobile }, "mobile");
+            if (Object.getOwnPropertyNames(err).length == 0) {
+              Keyboard.dismiss();
               setLoader(true);
               setTimeout(() => {
                 setLoader(false);
@@ -183,7 +175,7 @@ const Mobile = (props) => {
                 setView("otp");
               }, 2000);
             } else {
-              setErrMsg("Please enter a valid mobile number");
+              setError(err.mobile);
             }
           }}
           // onPress={() => {
@@ -235,16 +227,6 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "Regular",
     color: colors.black,
-  },
-  errorTextView: {
-    alignSelf: "center",
-    width: (widthsize * 90) / 100,
-    marginTop: (heightsize * 0.9) / 100,
-  },
-  errText: {
-    fontSize: (widthsize * 2.3) / 100,
-    fontFamily: "Regular",
-    color: colors.red,
   },
   buttonContainer: {
     alignSelf: "center",

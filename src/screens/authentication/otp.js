@@ -15,10 +15,12 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import colors from "../../constant/colors";
+import { ownerLoginValidation } from "../../validators/owner/ownerLoginValidator/ownerLoginValidator";
+import { ErrorText } from "../../component";
 
 const Otp = (props) => {
   const [value, setValue] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [error, setError] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -70,7 +72,7 @@ const Otp = (props) => {
         {...prop}
         value={value}
         onChangeText={(text) => {
-          setErrMsg("");
+          setError("");
           setValue(text.replace(/[^0-9]/g, ""));
         }}
         cellCount={4}
@@ -91,7 +93,7 @@ const Otp = (props) => {
               {
                 borderColor: isFocused
                   ? colors.blue
-                  : errMsg.length > 0
+                  : error.length > 0
                   ? colors.red
                   : colors.textinput_border,
               },
@@ -104,27 +106,25 @@ const Otp = (props) => {
         )}
       />
 
-      {/* invalid msg */}
-      <View
-        style={[
-          styles.errorTextView,
-          { display: errMsg.length > 0 ? "flex" : "none" },
-        ]}
-      >
-        <Text style={styles.errText}>{errMsg}</Text>
-      </View>
+      {/* error msg */}
+      <ErrorText
+        style={{ alignItems: "center", justifyContent: "center" }}
+        err={error}
+        show={error.length > 0 ? true : false}
+      />
 
       {/* button */}
       <TouchableOpacity
         style={styles.buttonContainer}
         activeOpacity={0.6}
         delayPressIn={0}
-        onPress={() => {
-          Keyboard.dismiss();
-          if (value.length != 4) {
-            setErrMsg("Please enter a valid OTP");
-          } else {
+        onPress={async () => {
+          const err = await ownerLoginValidation({ otp: value }, "otp");
+          if (Object.getOwnPropertyNames(err).length == 0) {
+            Keyboard.dismiss();
             props.submit();
+          } else {
+            setError(err.otp);
           }
         }}
         // onPress={() => props.submit(value)}
@@ -222,16 +222,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: "Regular",
     textAlign: "center",
-  },
-  errorTextView: {
-    alignSelf: "center",
-    width: (widthsize * 65) / 100,
-    marginTop: (heightsize * 0.9) / 100,
-  },
-  errText: {
-    fontSize: (widthsize * 2.3) / 100,
-    fontFamily: "Regular",
-    color: colors.red,
   },
   buttonContainer: {
     alignSelf: "center",
