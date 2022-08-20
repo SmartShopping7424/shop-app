@@ -18,10 +18,3 @@ export async function getCameraPermission() {
   }
   return false;
 }
-
-// method to convert given string to camel case
-export function toCamel(str) {
-  return str.replace(/([-_][a-z])/gi, ($1) => {
-    return $1.toUpperCase().replace("-", " ").replace("_", " ");
-  });
-}

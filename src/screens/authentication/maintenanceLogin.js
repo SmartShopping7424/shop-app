@@ -38,36 +38,32 @@ const MaintenanceLogin = () => {
 
   // check validation of inputs
   const checkValidation = async () => {
-    Keyboard.dismiss();
-    setLoader(true);
-    const err = await maintenanceLoginValidator(inputs);
+    const err = await maintenanceLoginValidator(
+      shopVerify ? inputs : { shopId: inputs.shopId },
+      shopVerify ? "all" : "shopId"
+    );
     if (Object.getOwnPropertyNames(err).length == 0) {
-      setTimeout(async () => {
-        await AsyncStorage.setItem("page", "maintenancemain");
-        await AsyncStorage.setItem("maintenance_user_id", inputs.userId);
-        setLoader(false);
-        const resetAction = CommonActions.reset({
-          index: 0,
-          routes: [{ name: "maintenancemain" }],
-        });
-        navigation.dispatch(resetAction);
-      }, 2000);
-    } else {
-      if (!shopVerify) {
-        if (!err.hasOwnProperty("shopId")) {
-          setTimeout(() => {
-            setLoader(false);
-            setError({ shopId: "", userId: "", password: "" });
-            setShopVerify(true);
-          }, 2000);
-        } else {
-          setError(err);
+      Keyboard.dismiss();
+      setLoader(true);
+      if (shopVerify) {
+        setTimeout(async () => {
+          await AsyncStorage.setItem("page", "maintenancemain");
+          await AsyncStorage.setItem("maintenance_user_id", inputs.userId);
           setLoader(false);
-        }
+          const resetAction = CommonActions.reset({
+            index: 0,
+            routes: [{ name: "maintenancemain" }],
+          });
+          navigation.dispatch(resetAction);
+        }, 2000);
       } else {
-        setError(err);
-        setLoader(false);
+        setTimeout(() => {
+          setLoader(false);
+          setShopVerify(true);
+        }, 2000);
       }
+    } else {
+      setError(err);
     }
   };
 

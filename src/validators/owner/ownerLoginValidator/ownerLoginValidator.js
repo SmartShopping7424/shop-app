@@ -1,6 +1,3 @@
-import validator from "validator";
-import { toCamel } from "../../../utils/helper";
-
 // method to validate owner login inputs
 export const ownerLoginValidation = async (inputs, from) => {
   // define empty error
@@ -12,7 +9,7 @@ export const ownerLoginValidation = async (inputs, from) => {
   // check if key missing from inputs
   required.map((key) => {
     if (!inputs.hasOwnProperty(key)) {
-      errors[key] = `${toCamel(key)} is required`;
+      errors[key] = `${key} is required`;
     } else {
       errors[key] = "";
     }
@@ -21,18 +18,28 @@ export const ownerLoginValidation = async (inputs, from) => {
   // check inputs values
   for (let key in inputs) {
     if (inputs.hasOwnProperty(key)) {
-      value = validator.trim(String(inputs[key]));
+      // extract value
+      value = String(inputs[key]).trim();
 
       switch (key) {
         case "mobile":
           const mobile_number_format = /^[6-9][0-9]{9}$/;
-          if (!mobile_number_format.test(value)) {
-            errors[key] = "Please enter a valid mobile number";
+          if (value.length == 0) {
+            errors[key] = "Invalid, mobile number is required";
+          } else {
+            if (value.length != 10) {
+              errors[key] = "Invalid, mobile number must be of 10 digits";
+            } else {
+              if (!mobile_number_format.test(value)) {
+                errors[key] =
+                  "Invalid, please enter a valid mobile number, starts with [6-9]";
+              }
+            }
           }
           break;
         case "otp":
-          if (!validator.isLength(value, { min: 4, max: 4 })) {
-            errors[key] = "Please enter a valid OTP";
+          if (value.length != 4) {
+            errors[key] = "Invalid, please enter a valid OTP";
           }
           break;
         default:

@@ -1,18 +1,15 @@
-import validator from "validator";
-import { toCamel } from "../../../utils/helper";
-
 // method to validate maintenance login inputs
-export const maintenanceLoginValidator = async (inputs) => {
+export const maintenanceLoginValidator = async (inputs, mode) => {
   // define empty error
   var errors = {};
 
   // required attributes
-  var required = ["shopId", "userId", "password"];
+  var required = mode == "all" ? ["shopId", "userId", "password"] : ["shopId"];
 
   // check if key missing from inputs
   required.map((key) => {
     if (!inputs.hasOwnProperty(key)) {
-      errors[key] = `${toCamel(key)} is required`;
+      errors[key] = `${key} is required`;
     } else {
       errors[key] = "";
     }
@@ -21,42 +18,43 @@ export const maintenanceLoginValidator = async (inputs) => {
   // check inputs values
   for (let key in inputs) {
     if (inputs.hasOwnProperty(key)) {
-      value = validator.trim(String(inputs[key]));
+      // extract value
+      value = String(inputs[key]).trim();
 
       switch (key) {
         case "shopId":
-          if (!validator.isLength(value, { min: 12, max: 20 })) {
-            if (value.length > 20) {
-              errors[key] =
-                "Invalid, shop id cannot be greater than 20 characters";
+          if (value.length > 20) {
+            errors[key] =
+              "Invalid, shop id cannot be greater than 20 characters";
+          } else {
+            if (value.length == 0) {
+              errors[key] = "Invalid, shop id is required";
             } else if (value.length > 0 && value.length < 12) {
               errors[key] = "Invalid, shop id must be atleast of 12 characters";
-            } else {
-              errors[key] = "Please enter a valid shop id";
             }
           }
           break;
         case "userId":
-          if (!validator.isLength(value, { min: 5, max: 20 })) {
-            if (value.length > 20) {
-              errors[key] =
-                "Invalid, user id cannot be greater than 20 characters";
+          if (value.length > 20) {
+            errors[key] =
+              "Invalid, user id cannot be greater than 20 characters";
+          } else {
+            if (value.length == 0) {
+              errors[key] = "Invalid, user id is required";
             } else if (value.length > 0 && value.length < 5) {
               errors[key] = "Invalid, user id must be atleast of 5 characters";
-            } else {
-              errors[key] = "Please enter a valid user id";
             }
           }
           break;
         case "password":
-          if (!validator.isLength(value, { min: 8, max: 8 })) {
-            if (value.length > 8) {
-              errors[key] =
-                "Invalid, password cannot be greater than 8 characters";
+          if (value.length > 8) {
+            errors[key] =
+              "Invalid, password cannot be greater than 8 characters";
+          } else {
+            if (value.length == 0) {
+              errors[key] = "Invalid, password is required";
             } else if (value.length > 0 && value.length < 8) {
-              errors[key] = "Invalid, password must be of 8 characters";
-            } else {
-              errors[key] = "Please enter a valid password";
+              errors[key] = "Invalid, password must be atleast of 8 characters";
             }
           }
           break;

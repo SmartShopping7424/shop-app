@@ -38,36 +38,32 @@ const SecurityLogin = () => {
 
   // check validation of inputs
   const checkValidation = async () => {
-    Keyboard.dismiss();
-    setLoader(true);
-    const err = await securityLoginValidator(inputs);
+    const err = await securityLoginValidator(
+      shopVerify ? inputs : { shopId: inputs.shopId },
+      shopVerify ? "all" : "shopId"
+    );
     if (Object.getOwnPropertyNames(err).length == 0) {
-      setTimeout(async () => {
-        await AsyncStorage.setItem("page", "securitymain");
-        await AsyncStorage.setItem("security_user_id", inputs.userId);
-        setLoader(false);
-        const resetAction = CommonActions.reset({
-          index: 0,
-          routes: [{ name: "securitymain" }],
-        });
-        navigation.dispatch(resetAction);
-      }, 2000);
-    } else {
-      if (!shopVerify) {
-        if (!err.hasOwnProperty("shopId")) {
-          setTimeout(() => {
-            setLoader(false);
-            setError({ shopId: "", userId: "", password: "" });
-            setShopVerify(true);
-          }, 2000);
-        } else {
-          setError(err);
+      Keyboard.dismiss();
+      setLoader(true);
+      if (shopVerify) {
+        setTimeout(async () => {
+          await AsyncStorage.setItem("page", "securitymain");
+          await AsyncStorage.setItem("security_user_id", inputs.userId);
           setLoader(false);
-        }
+          const resetAction = CommonActions.reset({
+            index: 0,
+            routes: [{ name: "securitymain" }],
+          });
+          navigation.dispatch(resetAction);
+        }, 2000);
       } else {
-        setError(err);
-        setLoader(false);
+        setTimeout(() => {
+          setLoader(false);
+          setShopVerify(true);
+        }, 2000);
       }
+    } else {
+      setError(err);
     }
   };
 
@@ -391,16 +387,6 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     color: colors.black,
     fontFamily: "Regular",
-  },
-  errorTextView: {
-    alignSelf: "center",
-    width: (widthsize * 90) / 100,
-    marginTop: (heightsize * 0.9) / 100,
-  },
-  errText: {
-    fontSize: (widthsize * 2.3) / 100,
-    fontFamily: "Regular",
-    color: colors.red,
   },
   buttonContainer: {
     alignSelf: "center",
