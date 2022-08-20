@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import awsconfig from "./src/config/aws-export";
 // import Amplify from "aws-amplify";
@@ -19,6 +20,7 @@ import {
   MaintenanceHome,
 } from "./src/screens";
 import colors from "./src/constant/colors";
+import toastConfig from "./src/config/toast-config";
 
 const Stack = createNativeStackNavigator();
 
@@ -164,6 +166,9 @@ const App = () => {
       ) : (
         <View />
       )}
+
+      {/* toast container */}
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 };

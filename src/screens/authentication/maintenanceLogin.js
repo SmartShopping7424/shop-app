@@ -16,15 +16,18 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import colors from "../../constant/colors";
 import { CameraScan, ErrorText } from "../../component";
-import { getCameraPermission } from "../../utils/helper";
+import { getCameraPermission, successToast } from "../../utils/helper";
 import { maintenanceLoginValidator } from "../../validators/maintenance/maintenanceLoginValidator/maintenanceLoginValidator";
 
 const MaintenanceLogin = () => {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState({
-    shopId: "",
-    userId: "",
-    password: "",
+    shopId: "BHGHYTYT7676Y",
+    userId: "BHGHG",
+    password: "12345678",
+    // shopId: "",
+    // userId: "",
+    // password: "",
   });
   const [error, setError] = useState({
     shopId: "",
@@ -46,6 +49,9 @@ const MaintenanceLogin = () => {
       Keyboard.dismiss();
       setLoader(true);
       if (shopVerify) {
+        setTimeout(() => {
+          successToast("Successful Login");
+        }, 2000);
         setTimeout(async () => {
           await AsyncStorage.setItem("page", "maintenancemain");
           await AsyncStorage.setItem("maintenance_user_id", inputs.userId);
@@ -55,7 +61,7 @@ const MaintenanceLogin = () => {
             routes: [{ name: "maintenancemain" }],
           });
           navigation.dispatch(resetAction);
-        }, 2000);
+        }, 3000);
       } else {
         setTimeout(() => {
           setLoader(false);

@@ -1,4 +1,5 @@
 import { Camera } from "expo-camera";
+import Toast from "react-native-toast-message";
 
 // get random number of any length
 export function randomNumber(len) {
@@ -17,4 +18,28 @@ export async function getCameraPermission() {
     return true;
   }
   return false;
+}
+
+// success toast
+export async function successToast(text) {
+  Toast.show({
+    type: "customSuccess",
+    text1: text,
+  });
+}
+
+// error toast
+export async function errorToast(text) {
+  Toast.show({
+    type: "customError",
+    text1: text,
+  });
+}
+
+// warning toast
+export async function warningToast(text) {
+  Toast.show({
+    type: "customWarning",
+    text1: text,
+  });
 }

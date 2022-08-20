@@ -17,6 +17,7 @@ import Otp from "./otp";
 import colors from "../../constant/colors";
 import { ErrorText } from "../../component";
 import { ownerLoginValidation } from "../../validators/owner/ownerLoginValidator/ownerLoginValidator";
+import { successToast } from "../../utils/helper";
 
 const Mobile = (props) => {
   const navigation = useNavigation();
@@ -104,6 +105,9 @@ const Mobile = (props) => {
         submit={() => {
           Keyboard.dismiss();
           setOtpLoader(true);
+          setTimeout(() => {
+            successToast("Successful Login");
+          }, 2000);
           setTimeout(async () => {
             await AsyncStorage.setItem("page", "ownermain");
             setOtpLoader(false);
@@ -112,7 +116,7 @@ const Mobile = (props) => {
               routes: [{ name: "ownermain" }],
             });
             navigation.dispatch(resetAction);
-          }, 2000);
+          }, 3000);
         }}
         change={() => {
           setView("mobile");

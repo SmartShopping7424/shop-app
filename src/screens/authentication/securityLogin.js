@@ -16,15 +16,18 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import security_avatar from "../../../assets/images/security_avatar.png";
 import colors from "../../constant/colors";
 import { CameraScan, ErrorText } from "../../component";
-import { getCameraPermission } from "../../utils/helper";
+import { getCameraPermission, successToast } from "../../utils/helper";
 import { securityLoginValidator } from "../../validators/security/securityLoginValidator/securityLoginValidator";
 
 const SecurityLogin = () => {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState({
-    shopId: "",
-    userId: "",
-    password: "",
+    shopId: "BHGHYTYT7676Y",
+    userId: "BHGHG",
+    password: "12345678",
+    // shopId: "",
+    // userId: "",
+    // password: "",
   });
   const [error, setError] = useState({
     shopId: "",
@@ -46,6 +49,9 @@ const SecurityLogin = () => {
       Keyboard.dismiss();
       setLoader(true);
       if (shopVerify) {
+        setTimeout(() => {
+          successToast("Successful Login");
+        }, 2000);
         setTimeout(async () => {
           await AsyncStorage.setItem("page", "securitymain");
           await AsyncStorage.setItem("security_user_id", inputs.userId);
@@ -55,7 +61,7 @@ const SecurityLogin = () => {
             routes: [{ name: "securitymain" }],
           });
           navigation.dispatch(resetAction);
-        }, 2000);
+        }, 3000);
       } else {
         setTimeout(() => {
           setLoader(false);
