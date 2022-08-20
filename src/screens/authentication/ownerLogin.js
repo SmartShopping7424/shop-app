@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   main: {
-    backgroundColor: "#f5f9ff",
+    backgroundColor: colors.login_bg,
     width: widthsize,
     paddingBottom: (heightsize * 5) / 100,
     alignItems: "center",

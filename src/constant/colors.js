@@ -6,6 +6,7 @@ const colors = {
   black: "#424242",
   gray: "#42424288",
   textinput_border: "#EEEEEE",
+  login_bg: "#F5F9FF",
 };
 
 export default colors;
