@@ -22,12 +22,9 @@ import { maintenanceLoginValidator } from "../../validators/maintenance/maintena
 const MaintenanceLogin = () => {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState({
-    shopId: "BHGHYTYT7676Y",
-    userId: "BHGHG",
-    password: "12345678",
-    // shopId: "",
-    // userId: "",
-    // password: "",
+    shopId: "",
+    userId: "",
+    password: "",
   });
   const [error, setError] = useState({
     shopId: "",
@@ -50,8 +47,8 @@ const MaintenanceLogin = () => {
       setLoader(true);
       if (shopVerify) {
         setTimeout(() => {
-          successToast("Successful Login");
-        }, 2000);
+          successToast("Successfully login");
+        }, 1500);
         setTimeout(async () => {
           await AsyncStorage.setItem("page", "maintenancemain");
           await AsyncStorage.setItem("maintenance_user_id", inputs.userId);
@@ -66,7 +63,7 @@ const MaintenanceLogin = () => {
         setTimeout(() => {
           setLoader(false);
           setShopVerify(true);
-        }, 2000);
+        }, 1500);
       }
     } else {
       setError(err);

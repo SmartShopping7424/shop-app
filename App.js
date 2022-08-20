@@ -168,7 +168,7 @@ const App = () => {
       )}
 
       {/* toast container */}
-      <Toast config={toastConfig} />
+      <Toast config={toastConfig} position="bottom" visibilityTime={2000} />
     </SafeAreaView>
   );
 };

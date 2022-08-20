@@ -106,8 +106,8 @@ const Mobile = (props) => {
           Keyboard.dismiss();
           setOtpLoader(true);
           setTimeout(() => {
-            successToast("Successful Login");
-          }, 2000);
+            successToast("Successfully login");
+          }, 1500);
           setTimeout(async () => {
             await AsyncStorage.setItem("page", "ownermain");
             setOtpLoader(false);
@@ -177,7 +177,7 @@ const Mobile = (props) => {
                 setLoader(false);
                 props.setShow(false);
                 setView("otp");
-              }, 2000);
+              }, 1500);
             } else {
               setError(err.mobile);
             }

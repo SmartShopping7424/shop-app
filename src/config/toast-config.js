@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   successToastContainer: {
     width: (widthsize * 80) / 100,
     height: (heightsize * 5) / 100,
-    marginTop: (heightsize * 2) / 100,
+    marginBottom: (heightsize * 7) / 100,
     backgroundColor: colors.success_bg,
     borderWidth: 0.5,
     borderColor: colors.success_txt,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   errorToastContainer: {
     width: (widthsize * 80) / 100,
     height: (heightsize * 5) / 100,
-    marginTop: (heightsize * 2) / 100,
+    marginBottom: (heightsize * 7) / 100,
     backgroundColor: colors.error_bg,
     borderWidth: 0.5,
     borderColor: colors.error_txt,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   warningToastContainer: {
     width: (widthsize * 80) / 100,
     height: (heightsize * 5) / 100,
-    marginTop: (heightsize * 2) / 100,
+    marginBottom: (heightsize * 7) / 100,
     backgroundColor: colors.warning_bg,
     borderWidth: 0.5,
     borderColor: colors.warning_txt,
