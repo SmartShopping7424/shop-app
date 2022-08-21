@@ -6,7 +6,7 @@ const colors = {
   black: "#424242",
   gray: "#42424288",
   textinput_border: "#EEEEEE",
-  login_bg: "#F5F9FF",
+  login_bg: "#e7eefe",
   success_bg: "#dbf0e4",
   success_txt: "#44a26b",
   error_bg: "#fad1d1",
