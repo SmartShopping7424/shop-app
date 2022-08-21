@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     marginTop: (heightsize * 0.9) / 100,
   },
   errText: {
-    fontSize: (widthsize * 2.3) / 100,
+    fontSize: (widthsize * 2.5) / 100,
     fontFamily: "Regular",
     color: colors.red,
   },

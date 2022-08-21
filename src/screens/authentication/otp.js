@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   otp_text: {
-    fontSize: (widthsize * 3) / 100,
+    fontSize: (widthsize * 2.8) / 100,
     color: colors.black,
     fontFamily: "Regular",
     textAlign: "center",
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
-    height: (heightsize * 4.5) / 100,
+    height: (heightsize * 5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,

@@ -106,7 +106,7 @@ const Mobile = (props) => {
           Keyboard.dismiss();
           setOtpLoader(true);
           setTimeout(() => {
-            successToast("Successfully login");
+            successToast("Login successful");
           }, 1500);
           setTimeout(async () => {
             await AsyncStorage.setItem("page", "ownermain");
@@ -207,11 +207,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     width: (widthsize * 90) / 100,
+    height: (heightsize * 5) / 100,
     backgroundColor: colors.white,
     borderRadius: (widthsize * 2) / 100,
     borderWidth: 1,
     overflow: "hidden",
-    padding: (widthsize * 3) / 100,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -222,13 +222,14 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   countryCodeText: {
-    fontSize: (widthsize * 3) / 100,
+    fontSize: (widthsize * 2.8) / 100,
+    marginLeft: (widthsize * 2) / 100,
     fontFamily: "SemiBold",
   },
   textInput: {
     flex: 1,
-    paddingLeft: (widthsize * 1) / 100,
-    fontSize: (widthsize * 3) / 100,
+    marginLeft: (widthsize * 1) / 100,
+    fontSize: (widthsize * 2.8) / 100,
     fontFamily: "Regular",
     color: colors.black,
   },
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
-    height: (heightsize * 4.5) / 100,
+    height: (heightsize * 5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,

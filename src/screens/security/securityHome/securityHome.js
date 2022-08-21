@@ -115,7 +115,7 @@ const SecurityHome = () => {
           }}
           onData={(data) => {
             setShowScaner(false);
-            console.log(data);
+            navigation.navigate("securitybill", { qr: data });
           }}
         />
       ) : (

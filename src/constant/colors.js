@@ -7,12 +7,15 @@ const colors = {
   gray: "#42424288",
   textinput_border: "#EEEEEE",
   login_bg: "#e7eefe",
+  left_circle_bg: "#C8EDF9FC",
+  right_circle_bg: "#B5FEA8",
   success_bg: "#dbf0e4",
   success_txt: "#44a26b",
   error_bg: "#fad1d1",
   error_txt: "#cf1717",
   warning_bg: "#ffe6cc",
   warning_txt: "#e67700",
+  cream: "#ffffea",
 };
 
 export default colors;

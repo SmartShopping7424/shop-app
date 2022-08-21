@@ -4,8 +4,6 @@ import { useNavigation } from "@react-navigation/core";
 import { widthsize, heightsize } from "../../constant/dimensions";
 import colors from "../../constant/colors";
 import logo from "../../../assets/images/logo.png";
-import left_circle from "../../../assets/images/left_circle.png";
-import right_circle from "../../../assets/images/right_circle.png";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
 import security_avatar from "../../../assets/images/security_avatar.png";
 import Mobile from "./mobile";
@@ -41,57 +39,58 @@ const OwnerLogin = () => {
         >
           <Text style={styles.titleText}>By continuing, you agree to our</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.subtitleText}>Terms and Conditions</Text>
-            <Text style={styles.subtitleAndSign}>&</Text>
-            <Text style={styles.subtitleText}>Privacy Policy</Text>
+            <Text onPress={() => null} style={styles.subtitleText}>
+              Terms and Conditions
+            </Text>
+            <Text style={styles.subtitleSign}>&</Text>
+            <Text onPress={() => null} style={styles.subtitleText}>
+              Privacy Policy
+            </Text>
           </View>
         </View>
       </View>
 
       {/* maintenance part */}
-      <Image
-        source={left_circle}
-        style={[styles.leftCircle, { display: show ? "flex" : "none" }]}
-      />
-      <TouchableOpacity
-        style={[
-          styles.maintenanceLogoView,
-          { display: show ? "flex" : "none" },
-        ]}
-        activeOpacity={0.6}
-        delayPressIn={0}
-        onPress={() => {
-          setErr(false);
-          navigation.navigate("maintenancelogin");
-        }}
+      <View
+        style={[styles.leftCircleView, { display: show ? "flex" : "none" }]}
       >
-        <Image
-          source={maintenance_avatar}
-          style={[styles.maintenanceLogo, { display: show ? "flex" : "none" }]}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.maintenanceLogoView}
+          activeOpacity={0.6}
+          delayPressIn={0}
+          onPress={() => {
+            setErr(false);
+            navigation.navigate("maintenancelogin");
+          }}
+        >
+          <Image
+            source={maintenance_avatar}
+            style={styles.maintenanceLogo}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* security part */}
-      <Image
-        source={right_circle}
-        style={[styles.rightCircle, { display: show ? "flex" : "none" }]}
-      />
-      <TouchableOpacity
-        style={[styles.securityLogoView, { display: show ? "flex" : "none" }]}
-        activeOpacity={0.6}
-        delayPressIn={0}
-        onPress={() => {
-          setErr(false);
-          navigation.navigate("securitylogin");
-        }}
+      <View
+        style={[styles.rightCircleView, { display: show ? "flex" : "none" }]}
       >
-        <Image
-          source={security_avatar}
-          style={[styles.securityLogo, { display: show ? "flex" : "none" }]}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.securityLogoView}
+          activeOpacity={0.6}
+          delayPressIn={0}
+          onPress={() => {
+            setErr(false);
+            navigation.navigate("securitylogin");
+          }}
+        >
+          <Image
+            source={security_avatar}
+            style={styles.securityLogo}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -104,18 +103,17 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: colors.login_bg,
     width: widthsize,
-    paddingBottom: (heightsize * 5) / 100,
-    alignItems: "center",
+    paddingBottom: (heightsize * 4) / 100,
     borderBottomLeftRadius: (widthsize * 8) / 100,
     borderBottomRightRadius: (widthsize * 8) / 100,
   },
   logo: {
-    marginTop: (heightsize * 3) / 100,
-    width: (widthsize * 70) / 100,
-    height: (widthsize * 70) / 100,
+    alignSelf: "center",
+    width: (widthsize * 60) / 100,
+    height: (widthsize * 60) / 100,
   },
   termConditionView: {
-    marginTop: (heightsize * 10) / 100,
+    marginTop: (heightsize * 5) / 100,
     width: widthsize,
     alignItems: "center",
     justifyContent: "center",
@@ -127,7 +125,7 @@ const styles = StyleSheet.create({
     color: colors.gray,
     textAlign: "center",
   },
-  subtitleAndSign: {
+  subtitleSign: {
     marginLeft: (widthsize * 1) / 100,
     marginRight: (widthsize * 1) / 100,
     color: colors.gray,
@@ -141,43 +139,49 @@ const styles = StyleSheet.create({
     color: colors.blue,
     textAlign: "center",
   },
-  leftCircle: {
+  leftCircleView: {
     position: "absolute",
     bottom: 0,
     left: 0,
-    width: (widthsize * 60) / 100,
-    height: (widthsize * 45) / 100,
+    width: (widthsize * 35) / 100,
+    height: (widthsize * 35) / 100,
+    borderTopRightRadius: (widthsize * 35) / 100,
+    overflow: "hidden",
+    backgroundColor: colors.left_circle_bg,
+    alignItems: "center",
+    justifyContent: "center",
   },
   maintenanceLogoView: {
-    position: "absolute",
-    bottom: (heightsize * 1) / 100,
-    left: 0,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: (widthsize * 6) / 100,
+    marginTop: (heightsize * 2) / 100,
   },
   maintenanceLogo: {
-    width: (widthsize * 30) / 100,
-    height: (widthsize * 30) / 100,
-    marginLeft: (widthsize * 2) / 100,
+    width: (widthsize * 22) / 100,
+    height: (widthsize * 22) / 100,
   },
-  rightCircle: {
+  rightCircleView: {
     position: "absolute",
     bottom: 0,
     right: 0,
-    width: (widthsize * 60) / 100,
-    height: (widthsize * 45) / 100,
-  },
-  securityLogoView: {
-    position: "absolute",
-    bottom: (heightsize * 1) / 100,
-    right: 0,
+    width: (widthsize * 35) / 100,
+    height: (widthsize * 35) / 100,
+    borderTopLeftRadius: (widthsize * 35) / 100,
+    overflow: "hidden",
+    backgroundColor: colors.right_circle_bg,
     alignItems: "center",
     justifyContent: "center",
   },
+  securityLogoView: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: (widthsize * 6) / 100,
+    marginTop: (heightsize * 2) / 100,
+  },
   securityLogo: {
-    width: (widthsize * 30) / 100,
-    height: (widthsize * 30) / 100,
-    marginRight: (widthsize * 2) / 100,
+    width: (widthsize * 22) / 100,
+    height: (widthsize * 22) / 100,
   },
 });
 

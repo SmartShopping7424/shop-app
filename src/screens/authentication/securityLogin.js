@@ -47,7 +47,7 @@ const SecurityLogin = () => {
       setLoader(true);
       if (shopVerify) {
         setTimeout(() => {
-          successToast("Successfully login");
+          successToast("Login successful");
         }, 1500);
         setTimeout(async () => {
           await AsyncStorage.setItem("page", "securitymain");
@@ -76,6 +76,7 @@ const SecurityLogin = () => {
       <TouchableOpacity
         activeOpacity={0.6}
         delayPressIn={0}
+        style={{ marginRight: (widthsize * 3) / 100 }}
         onPress={async () => {
           Keyboard.dismiss();
           setShopVerify(false);
@@ -95,6 +96,7 @@ const SecurityLogin = () => {
         style={{ display: shopVerify ? "none" : "flex" }}
         activeOpacity={0.6}
         delayPressIn={0}
+        style={{ marginRight: (widthsize * 3) / 100 }}
         onPress={async () => {
           Keyboard.dismiss();
           const permission = await getCameraPermission();
@@ -325,6 +327,7 @@ function passwordInput(
       <TouchableOpacity
         activeOpacity={0.6}
         delayPressIn={0}
+        style={{ marginRight: (widthsize * 3) / 100 }}
         onPress={() => setShowPass(!showPass)}
       >
         <Ionicons
@@ -368,13 +371,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     width: (widthsize * 90) / 100,
+    height: (heightsize * 5) / 100,
     marginTop: (heightsize * 2) / 100,
     backgroundColor: "#fff",
     borderRadius: (widthsize * 2) / 100,
     borderWidth: 1,
     borderColor: colors.textinput_border,
     overflow: "hidden",
-    padding: (widthsize * 3) / 100,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -386,8 +389,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    paddingLeft: (widthsize * 1) / 100,
-    fontSize: (widthsize * 3) / 100,
+    marginLeft: (widthsize * 3) / 100,
+    fontSize: (widthsize * 2.8) / 100,
     color: colors.black,
     fontFamily: "Regular",
   },
@@ -395,7 +398,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: (heightsize * 2) / 100,
     width: (widthsize * 90) / 100,
-    height: (heightsize * 4.5) / 100,
+    height: (heightsize * 5) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,
@@ -407,7 +410,7 @@ const styles = StyleSheet.create({
     fontFamily: "SemiBold",
   },
   changeText: {
-    fontSize: (widthsize * 3) / 100,
+    fontSize: (widthsize * 2.8) / 100,
     color: colors.blue,
     fontFamily: "Medium",
   },

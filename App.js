@@ -18,6 +18,7 @@ import {
   OwnerHome,
   SecurityHome,
   MaintenanceHome,
+  SecurityBill,
 } from "./src/screens";
 import colors from "./src/constant/colors";
 import toastConfig from "./src/config/toast-config";
@@ -94,6 +95,7 @@ const SecurityMainStack = () => {
       screenOptions={screenOptions}
     >
       <Stack.Screen name="securityhome" component={SecurityHome} />
+      <Stack.Screen name="securitybill" component={SecurityBill} />
     </Stack.Navigator>
   );
 };
