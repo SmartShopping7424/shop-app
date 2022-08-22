@@ -50,25 +50,25 @@ const SecurityBill = () => {
         {/* order id view */}
         <View style={styles.orderIdView}>
           <Text style={styles.orderIdText}>
-            Order ID : <Text style={styles.orderIdSubText}>{qrId}</Text>
-          </Text>
-        </View>
-
-        {/* overall quantity */}
-        <View style={styles.overallQuantityView}>
-          <Text style={styles.overallQuantityText}>
-            Overall Quantity :{" "}
-            <Text style={styles.overallQuantitySubText}>
-              {productData.overall_quantity}
-            </Text>
+            Order ID - <Text style={styles.orderIdSubText}>{qrId}</Text>
           </Text>
         </View>
 
         {/* product container view */}
         <View style={styles.productContainerView}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView>
             {productData.products.map((item, index) => (
-              <View style={styles.productContainerListView} key={index}>
+              <View
+                style={[
+                  styles.productContainerListView,
+                  {
+                    borderTopWidth: index == 0 ? 1.5 : undefined,
+                    borderTopColor:
+                      index == 0 ? colors.textinput_border : undefined,
+                  },
+                ]}
+                key={index}
+              >
                 {/* icon */}
                 <Entypo
                   name="shopping-bag"
@@ -98,6 +98,16 @@ const SecurityBill = () => {
               </View>
             ))}
           </ScrollView>
+        </View>
+
+        {/* total quantity */}
+        <View style={styles.totalQuantityView}>
+          <Text style={styles.totalQuantityText}>
+            Total Quantity -{" "}
+            <Text style={styles.totalQuantitySubText}>
+              {productData.total_quantity}
+            </Text>
+          </Text>
         </View>
 
         {/* button view */}
@@ -140,31 +150,18 @@ const styles = StyleSheet.create({
     fontFamily: "Regular",
     color: colors.blue,
   },
-  overallQuantityView: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  overallQuantityText: {
-    fontSize: (widthsize * 2.8) / 100,
-    fontFamily: "Regular",
-    color: colors.black,
-  },
-  overallQuantitySubText: {
-    fontSize: (widthsize * 2.8) / 100,
-    fontFamily: "Regular",
-    color: colors.blue,
-  },
   productContainerView: {
     marginTop: (heightsize * 3) / 100,
-    backgroundColor: colors.cream,
     maxHeight: (heightsize * 65) / 100,
-    padding: (widthsize * 3) / 100,
     overflow: "hidden",
   },
   productContainerListView: {
-    paddingVertical: (widthsize * 3) / 100,
+    padding: (widthsize * 3) / 100,
     flexDirection: "row",
     alignItems: "center",
+    overflow: "hidden",
+    borderBottomWidth: 1.5,
+    borderBottomColor: colors.textinput_border,
   },
   productNameText: {
     fontSize: (widthsize * 3) / 100,
@@ -186,6 +183,21 @@ const styles = StyleSheet.create({
   quantityTotalText2: {
     fontSize: (widthsize * 3) / 100,
     fontFamily: "SemiBold",
+    color: colors.blue,
+  },
+  totalQuantityView: {
+    marginTop: (heightsize * 3) / 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  totalQuantityText: {
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "SemiBold",
+    color: colors.black,
+  },
+  totalQuantitySubText: {
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "Regular",
     color: colors.blue,
   },
   doneButtonView: {

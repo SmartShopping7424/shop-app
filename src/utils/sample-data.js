@@ -1,7 +1,7 @@
 // security order bill sample data
 const OrderBill = {
   order_id: "OIDUP53RA6453736278",
-  overall_quantity: 27,
+  total_quantity: 27,
   products: [
     {
       id: 0,
