@@ -3,15 +3,16 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/core";
+import { StatusBar } from "expo-status-bar";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
 import { Entypo } from "@expo/vector-icons";
 import { OrderBill } from "../../../utils/sample-data";
+import { FullScreenLoader } from "../../../component";
 
 const SecurityBill = () => {
   const navigation = useNavigation();
@@ -39,14 +40,12 @@ const SecurityBill = () => {
 
   // if render false
   if (!render) {
-    return (
-      <View style={styles.absolute_container}>
-        <ActivityIndicator size="large" color={colors.blue} />
-      </View>
-    );
+    return <FullScreenLoader />;
   } else {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor={colors.white} animated />
+
         {/* order id view */}
         <View style={styles.orderIdView}>
           <Text style={styles.orderIdText}>
@@ -125,12 +124,6 @@ const SecurityBill = () => {
 };
 
 const styles = StyleSheet.create({
-  absolute_container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.white,
-  },
   container: {
     flex: 1,
     backgroundColor: colors.white,

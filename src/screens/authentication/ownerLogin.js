@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
 import { widthsize, heightsize } from "../../constant/dimensions";
 import colors from "../../constant/colors";
@@ -22,6 +23,8 @@ const OwnerLogin = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={colors.login_bg} animated />
+
       {/* background image */}
       <View style={styles.main}>
         {/* logo */}

@@ -3,7 +3,6 @@ import { View, Text, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import awsconfig from "./src/config/aws-export";
@@ -147,7 +146,6 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor={colors.white} animated />
       {render ? (
         <NavigationContainer>
           <Stack.Navigator

@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useNavigation, CommonActions } from "@react-navigation/core";
+import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { widthsize, heightsize } from "../../constant/dimensions";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -116,6 +117,8 @@ const MaintenanceLogin = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={colors.white} animated />
+
       {/* image */}
       <View style={styles.avatarView}>
         <Image
@@ -205,6 +208,19 @@ const MaintenanceLogin = () => {
       ) : (
         <></>
       )}
+
+      {/* for developers */}
+      <TouchableOpacity
+        style={styles.developersView}
+        activeOpacity={1}
+        onLongPress={() => {
+          setInputs({
+            shopId: "UP55RAMG8647383",
+            userId: "Maintainers_1",
+            password: "12345678",
+          });
+        }}
+      />
     </View>
   );
 };
@@ -413,6 +429,12 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 2.8) / 100,
     color: colors.blue,
     fontFamily: "Medium",
+  },
+  developersView: {
+    position: "absolute",
+    bottom: 0,
+    width: (widthsize * 15) / 100,
+    height: (heightsize * 7) / 100,
   },
 });
 

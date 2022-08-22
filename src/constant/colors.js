@@ -16,6 +16,9 @@ const colors = {
   warning_bg: "#ffe6cc",
   warning_txt: "#e67700",
   cream: "#ffffea",
+  intro_2: "#F38C8C",
+  intro_3: "#76A1F9",
+  intro_4: "#58BC82",
 };
 
 export default colors;

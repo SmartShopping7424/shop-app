@@ -4,13 +4,15 @@ import { StatusBar } from "expo-status-bar";
 import { heightsize, widthsize } from "../../constant/dimensions";
 import colors from "../../constant/colors";
 
+const bg_color = "rgba(0,0,0,0.5)";
+
 const LogoutAlert = (props) => {
   // real time update props
   useEffect(() => {}, [props]);
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"rgba(0,0,0,0.5)"} animated={true} />
+      <StatusBar backgroundColor={bg_color} animated />
 
       {/* box container */}
       <View style={styles.boxContainer}>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     height: heightsize,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: bg_color,
   },
   boxContainer: {
     width: (widthsize * 90) / 100,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, CommonActions } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -50,6 +51,8 @@ const MaintenanceHome = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={colors.white} animated />
+
       {/* ean product */}
       <TouchableOpacity
         style={styles.buttonView}
@@ -138,7 +141,7 @@ const MaintenanceHome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
   },

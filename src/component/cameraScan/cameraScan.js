@@ -20,7 +20,7 @@ const CameraScan = (props) => {
 
   return (
     <View style={styles.cameraContainer}>
-      <StatusBar backgroundColor={bgColor} animated={true} />
+      <StatusBar backgroundColor={bgColor} animated />
 
       {/* close button */}
       <View style={styles.closeIconContainer}>
