@@ -1,58 +1,101 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { heightsize, widthsize } from "../../constant/dimensions";
+import { useNavigation, CommonActions } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../../constant/colors";
+import { heightsize, widthsize } from "../../constant/dimensions";
 
-const bg_color = "rgba(0,0,0,0.5)";
+const bg_color = "rgba(0,0,0,0.65)";
 
 const LogoutAlert = (props) => {
+  const navigation = useNavigation();
+  const [loader, setLoader] = useState(false);
+
   // real time update props
   useEffect(() => {}, [props]);
 
-  return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={bg_color} animated />
+  // remove all local storage
+  const clearAllData = async () => {
+    setLoader(true);
+    await AsyncStorage.getAllKeys().then(async (keys) => {
+      await AsyncStorage.multiRemove(keys).then(() => {
+        onLogout();
+      });
+    });
+  };
 
-      {/* box container */}
-      <View style={styles.boxContainer}>
-        {/* title */}
-        <View style={styles.titleView}>
-          <Text style={styles.titleText}>Log Out</Text>
-        </View>
+  // logout function
+  const onLogout = async () => {
+    await AsyncStorage.setItem("page", "auth");
+    const resetAction = CommonActions.reset({
+      index: 0,
+      routes: [{ name: "auth" }],
+    });
+    setTimeout(() => {
+      setLoader(false);
+      navigation.dispatch(resetAction);
+    }, 2000);
+  };
 
-        {/* content */}
-        <View style={styles.contentView}>
-          <Text style={styles.contentText}>
-            Are you sure you want to logout from the application ?
-          </Text>
-        </View>
+  if (loader) {
+    return (
+      <View style={styles.container}>
+        <StatusBar backgroundColor={bg_color} animated />
+        <ActivityIndicator size="large" color={colors.white} />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <StatusBar backgroundColor={bg_color} animated />
 
-        {/* button container */}
-        <View style={styles.buttonContainerView}>
-          {/* yes */}
-          <TouchableOpacity
-            activeOpacity={0.6}
-            delayPressIn={0}
-            style={styles.buttonTextYesView}
-            onPress={() => props.yes()}
-          >
-            <Text style={styles.buttonTextYes}>Yes</Text>
-          </TouchableOpacity>
+        {/* box container */}
+        <View style={styles.boxContainer}>
+          {/* title */}
+          <View style={styles.titleView}>
+            <Text style={styles.titleText}>Log Out</Text>
+          </View>
 
-          {/* no */}
-          <TouchableOpacity
-            activeOpacity={0.6}
-            delayPressIn={0}
-            style={styles.buttonTextNoView}
-            onPress={() => props.no()}
-          >
-            <Text style={styles.buttonTextNo}>No</Text>
-          </TouchableOpacity>
+          {/* content */}
+          <View style={styles.contentView}>
+            <Text style={styles.contentText}>
+              Are you sure you want to logout from the application ?
+            </Text>
+          </View>
+
+          {/* button container */}
+          <View style={styles.buttonContainerView}>
+            {/* yes */}
+            <TouchableOpacity
+              activeOpacity={0.6}
+              delayPressIn={0}
+              style={styles.buttonTextYesView}
+              onPress={() => clearAllData()}
+            >
+              <Text style={styles.buttonTextYes}>Yes</Text>
+            </TouchableOpacity>
+
+            {/* no */}
+            <TouchableOpacity
+              activeOpacity={0.6}
+              delayPressIn={0}
+              style={styles.buttonTextNoView}
+              onPress={() => props.no()}
+            >
+              <Text style={styles.buttonTextNo}>No</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({

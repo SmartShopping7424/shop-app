@@ -1,36 +1,16 @@
 import React, { useEffect, useState } from "react";
+import "react-native-gesture-handler";
 import { View, Text, TextInput } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import * as Font from "expo-font";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import awsconfig from "./src/config/aws-export";
 // import Amplify from "aws-amplify";
 // import Constants from "expo-constants";
-import * as Font from "expo-font";
-import {
-  Intro,
-  OwnerLogin,
-  MaintenanceLogin,
-  SecurityLogin,
-  OwnerHome,
-  SecurityHome,
-  MaintenanceHome,
-  SecurityBill,
-} from "./src/screens";
-import colors from "./src/constant/colors";
 import toastConfig from "./src/config/toast-config";
-
-const Stack = createNativeStackNavigator();
-
-// screen option for stack navigators
-const screenOptions = {
-  headerShown: false,
-  gestureEnabled: false,
-  cardOverlayEnabled: true,
-  animation: "slide_from_right",
-};
+import { PrimaryNavigation } from "./src/navigations";
 
 // font scaling of text in overall screens
 if (Text.defaultProps == null) {
@@ -44,62 +24,6 @@ if (TextInput.defaultProps == null) {
   TextInput.defaultProps.allowFontScaling = false;
 }
 
-// auth stack navigator
-const AuthStackNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="ownerlogin"
-      headerMode="none"
-      screenOptions={screenOptions}
-    >
-      <Stack.Screen name="ownerlogin" component={OwnerLogin} />
-      <Stack.Screen name="maintenancelogin" component={MaintenanceLogin} />
-      <Stack.Screen name="securitylogin" component={SecurityLogin} />
-    </Stack.Navigator>
-  );
-};
-
-// main stack navigator of owner
-const OwnerMainStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="ownerhome"
-      headerMode="none"
-      screenOptions={screenOptions}
-    >
-      <Stack.Screen name="ownerhome" component={OwnerHome} />
-    </Stack.Navigator>
-  );
-};
-
-// main stack navigator of maintenance
-const MaintenanceMainStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="maintenancehome"
-      headerMode="none"
-      screenOptions={screenOptions}
-    >
-      <Stack.Screen name="maintenancehome" component={MaintenanceHome} />
-    </Stack.Navigator>
-  );
-};
-
-// main stack navigator of security
-const SecurityMainStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="securityhome"
-      headerMode="none"
-      screenOptions={screenOptions}
-    >
-      <Stack.Screen name="securityhome" component={SecurityHome} />
-      <Stack.Screen name="securitybill" component={SecurityBill} />
-    </Stack.Navigator>
-  );
-};
-
-// main app
 const App = () => {
   const [value, setValue] = useState("");
   const [render, setRender] = useState(false);
@@ -146,22 +70,10 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {/* main navigation */}
       {render ? (
         <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={value}
-            headerMode="none"
-            screenOptions={screenOptions}
-          >
-            <Stack.Screen name="intro" component={Intro} />
-            <Stack.Screen name="auth" component={AuthStackNavigator} />
-            <Stack.Screen name="ownermain" component={OwnerMainStack} />
-            <Stack.Screen
-              name="maintenancemain"
-              component={MaintenanceMainStack}
-            />
-            <Stack.Screen name="securitymain" component={SecurityMainStack} />
-          </Stack.Navigator>
+          <PrimaryNavigation value={value} />
         </NavigationContainer>
       ) : (
         <View />

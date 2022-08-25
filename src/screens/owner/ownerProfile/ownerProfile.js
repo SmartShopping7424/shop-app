@@ -6,7 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
 
-const OwnerHome = () => {
+const OwnerProfile = () => {
   const navigation = useNavigation();
 
   return (
@@ -24,12 +24,12 @@ const OwnerHome = () => {
           onPress={() => navigation.toggleDrawer()}
         />
         {/* text */}
-        <Text style={styles.headerText}>Home</Text>
+        <Text style={styles.headerText}>Profile</Text>
       </View>
 
       {/* rest container */}
       <View style={styles.restContainer}>
-        <Text>Owner Home page</Text>
+        <Text>Owner Profile page</Text>
       </View>
     </View>
   );
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OwnerHome;
+export default OwnerProfile;

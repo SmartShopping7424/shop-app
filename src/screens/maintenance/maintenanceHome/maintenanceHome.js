@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation, CommonActions } from "@react-navigation/core";
+// import { useNavigation } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
@@ -10,7 +10,7 @@ import { CameraScan, LogoutAlert } from "../../../component";
 import { getCameraPermission } from "../../../utils/helper";
 
 const MaintenanceHome = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [showLogout, setShowLogout] = useState(false);
   const [showScanner, setShowScaner] = useState(false);
   const [userId, setUserId] = useState("");
@@ -29,25 +29,6 @@ const MaintenanceHome = () => {
       }
     })();
   }, [userId]);
-
-  // remove all local storage
-  const clearAllData = async () => {
-    await AsyncStorage.getAllKeys().then(async (keys) => {
-      await AsyncStorage.multiRemove(keys).then(() => {
-        onLogout();
-      });
-    });
-  };
-
-  // logout function
-  const onLogout = async () => {
-    await AsyncStorage.setItem("page", "auth");
-    const resetAction = CommonActions.reset({
-      index: 0,
-      routes: [{ name: "auth" }],
-    });
-    navigation.dispatch(resetAction);
-  };
 
   return (
     <View style={styles.container}>
@@ -108,17 +89,7 @@ const MaintenanceHome = () => {
       </TouchableOpacity>
 
       {/* logout alert */}
-      {showLogout ? (
-        <LogoutAlert
-          yes={() => {
-            setShowLogout(false);
-            clearAllData();
-          }}
-          no={() => setShowLogout(false)}
-        />
-      ) : (
-        <></>
-      )}
+      {showLogout ? <LogoutAlert no={() => setShowLogout(false)} /> : <></>}
 
       {/* if show scanner */}
       {showScanner ? (
