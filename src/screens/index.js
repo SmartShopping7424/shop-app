@@ -7,6 +7,7 @@ import MaintenanceHome from "./maintenance/maintenanceHome/maintenanceHome";
 import SecurityHome from "./security/securityHome/securityHome";
 import SecurityBill from "./security/securityBill/securityBill";
 import OwnerProfile from "./owner/ownerProfile/ownerProfile";
+import OwnerNew from "./owner/ownerNew/ownerNew";
 
 export {
   Intro,
@@ -15,6 +16,7 @@ export {
   SecurityLogin,
   OwnerHome,
   OwnerProfile,
+  OwnerNew,
   MaintenanceHome,
   SecurityHome,
   SecurityBill,

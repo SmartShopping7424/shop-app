@@ -1,10 +1,13 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AntDesign } from "@expo/vector-icons";
 import { widthsize } from "../../constant/dimensions";
-import { OwnerHome, OwnerProfile } from "../../screens";
+import { OwnerHome, OwnerNew, OwnerProfile } from "../../screens";
 import CustomDrawer from "./customDrawer";
 import colors from "../../constant/colors";
+
+const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
@@ -27,14 +30,14 @@ const OwnerNavigation = () => {
           fontFamily: "Regular",
         },
         drawerStyle: {
-          width: (widthsize * 75) / 100,
+          width: (widthsize * 80) / 100,
         },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
       <Drawer.Screen
         name="ownerhome"
-        component={OwnerHome}
+        component={OwnerHomeStack}
         options={{
           drawerLabel: "Home",
           drawerIcon: ({ color }) => (
@@ -57,6 +60,25 @@ const OwnerNavigation = () => {
         }}
       />
     </Drawer.Navigator>
+  );
+};
+
+// owner home stack
+const OwnerHomeStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="ownerhome1"
+      headerMode="none"
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: true,
+        animation: "slide_from_right",
+      }}
+    >
+      <Stack.Screen name="ownerhome1" component={OwnerHome} />
+      <Stack.Screen name="ownernew" component={OwnerNew} />
+    </Stack.Navigator>
   );
 };
 

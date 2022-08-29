@@ -4,20 +4,17 @@ import { OwnerLogin, MaintenanceLogin, SecurityLogin } from "../../screens";
 
 const Stack = createNativeStackNavigator();
 
-// screen option for stack navigators
-const stackScreenOptions = {
-  headerShown: false,
-  gestureEnabled: false,
-  cardOverlayEnabled: true,
-  animation: "slide_from_right",
-};
-
 const AuthNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="ownerlogin"
       headerMode="none"
-      screenOptions={stackScreenOptions}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: true,
+        animation: "slide_from_right",
+      }}
     >
       <Stack.Screen name="ownerlogin" component={OwnerLogin} />
       <Stack.Screen name="maintenancelogin" component={MaintenanceLogin} />

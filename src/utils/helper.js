@@ -43,3 +43,15 @@ export async function warningToast(text) {
     text1: text,
   });
 }
+
+// get order data
+export async function getOrderData() {
+  try {
+    const res = await fetch("https://demo8102272.mockable.io/producst");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("Error while fetching ::: ", error);
+    return null;
+  }
+}

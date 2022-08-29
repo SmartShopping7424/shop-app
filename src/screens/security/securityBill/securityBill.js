@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,32 +10,58 @@ import { useNavigation, useRoute } from "@react-navigation/core";
 import { StatusBar } from "expo-status-bar";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
-import { Entypo } from "@expo/vector-icons";
-import { OrderBill } from "../../../utils/sample-data";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import { FullScreenLoader } from "../../../component";
+import { errorToast, getOrderData, warningToast } from "../../../utils/helper";
 
 const SecurityBill = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [render, setRender] = useState(false);
   const [qrId, setQrId] = useState("");
-  const [productData, setProductData] = useState(null);
+  const [orderId, setOrderId] = useState("");
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [productData, setProductData] = useState([]);
+  const [itemIndex, setItemIndex] = useState([]);
 
-  navigation.addListener("focus", () => {
+  // fetch data
+  useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   // fetch data from order
-  const fetchData = () => {
+  const fetchData = async () => {
     if (route.params) {
       if (route.params.qr) {
-        setTimeout(() => {
-          setQrId(route.params.qr);
-          setProductData(OrderBill);
-          setRender(true);
-        }, 2000);
+        setQrId(route.params.qr);
+        const data = await getOrderData();
+        if (data) {
+          setTimeout(() => {
+            setProductData(data.products);
+            setOrderId(data.order_id);
+            setTotalQuantity(data.total_quantity);
+            setRender(true);
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            setRender(true);
+          }, 2000);
+        }
       }
     }
+  };
+
+  // move array item to last
+  const moveArrayItemToNewIndex = (arr, old_index, new_index, item_id) => {
+    setItemIndex((prev) => [...prev, item_id]);
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    setProductData([...arr]);
   };
 
   // if render false
@@ -49,14 +75,14 @@ const SecurityBill = () => {
         {/* order id view */}
         <View style={styles.orderIdView}>
           <Text style={styles.orderIdText}>
-            Order ID - <Text style={styles.orderIdSubText}>{qrId}</Text>
+            Order ID - <Text style={styles.orderIdSubText}>{orderId}</Text>
           </Text>
         </View>
 
         {/* product container view */}
         <View style={styles.productContainerView}>
           <ScrollView>
-            {productData.products.map((item, index) => (
+            {productData.map((item, index) => (
               <View
                 style={[
                   styles.productContainerListView,
@@ -64,19 +90,24 @@ const SecurityBill = () => {
                     borderTopWidth: index == 0 ? 1.5 : undefined,
                     borderTopColor:
                       index == 0 ? colors.textinput_border : undefined,
+                    marginBottom:
+                      index == productData.length - 1
+                        ? (heightsize * 20) / 100
+                        : undefined,
                   },
                 ]}
                 key={index}
               >
-                {/* icon */}
+                {/* bag icon */}
                 <Entypo
                   name="shopping-bag"
                   size={(widthsize * 5) / 100}
                   color={colors.blue}
+                  style={{ marginLeft: (widthsize * 3) / 100 }}
                 />
 
                 {/* product name */}
-                <View style={{ width: "60%" }}>
+                <View style={{ width: "55%" }}>
                   <Text style={styles.productNameText}>{item.name}</Text>
                 </View>
 
@@ -94,30 +125,64 @@ const SecurityBill = () => {
                     {item.quantity}
                   </Text>
                 </View>
+
+                {/* check icon */}
+                <TouchableOpacity
+                  style={styles.checkIconContainer}
+                  activeOpacity={0.6}
+                  delayPressIn={0}
+                  onPress={() => {
+                    if (!itemIndex.includes(item.id)) {
+                      moveArrayItemToNewIndex(
+                        productData,
+                        index,
+                        productData.length - 1,
+                        item.id
+                      );
+                    } else if (itemIndex.length == productData.length) {
+                      warningToast("All items has been checked");
+                    } else {
+                      errorToast("Already checked");
+                    }
+                  }}
+                >
+                  <AntDesign
+                    name={
+                      itemIndex.includes(item.id)
+                        ? "checksquare"
+                        : "checksquareo"
+                    }
+                    size={(widthsize * 4) / 100}
+                    color={
+                      itemIndex.includes(item.id) ? colors.blue : colors.gray
+                    }
+                  />
+                </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
         </View>
 
-        {/* total quantity */}
-        <View style={styles.totalQuantityView}>
-          <Text style={styles.totalQuantityText}>
-            Total Quantity -{" "}
-            <Text style={styles.totalQuantitySubText}>
-              {productData.total_quantity}
+        {/* bottom container */}
+        <View style={styles.bottomContainer}>
+          {/* total quantity */}
+          <View style={styles.totalQuantityView}>
+            <Text style={styles.totalQuantityText}>
+              Total Quantity -{" "}
+              <Text style={styles.totalQuantitySubText}>{totalQuantity}</Text>
             </Text>
-          </Text>
-        </View>
+          </View>
 
-        {/* button view */}
-        <TouchableOpacity
-          style={styles.doneButtonView}
-          activeOpacity={0.6}
-          delayPressIn={0}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.doneButtonText}>Done</Text>
-        </TouchableOpacity>
+          {/* button view */}
+          <TouchableOpacity
+            style={styles.doneButtonView}
+            activeOpacity={0.6}
+            delayPressIn={0}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.doneButtonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -145,16 +210,16 @@ const styles = StyleSheet.create({
   },
   productContainerView: {
     marginTop: (heightsize * 3) / 100,
-    maxHeight: (heightsize * 65) / 100,
     overflow: "hidden",
   },
   productContainerListView: {
-    padding: (widthsize * 3) / 100,
+    height: (heightsize * 5) / 100,
     flexDirection: "row",
     alignItems: "center",
     overflow: "hidden",
     borderBottomWidth: 1.5,
     borderBottomColor: colors.textinput_border,
+    overflow: "hidden",
   },
   productNameText: {
     fontSize: (widthsize * 3) / 100,
@@ -178,8 +243,18 @@ const styles = StyleSheet.create({
     fontFamily: "SemiBold",
     color: colors.blue,
   },
+  bottomContainer: {
+    position: "absolute",
+    bottom: 0,
+    overflow: "hidden",
+    width: widthsize,
+    height: (heightsize * 7) / 100,
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    backgroundColor: colors.textinput_border,
+  },
   totalQuantityView: {
-    marginTop: (heightsize * 3) / 100,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -194,10 +269,8 @@ const styles = StyleSheet.create({
     color: colors.blue,
   },
   doneButtonView: {
-    alignSelf: "center",
-    marginTop: (heightsize * 2) / 100,
-    width: (widthsize * 50) / 100,
-    height: (heightsize * 4.5) / 100,
+    width: (widthsize * 35) / 100,
+    height: (heightsize * 4) / 100,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blue,
@@ -207,6 +280,10 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "SemiBold",
     color: colors.white,
+  },
+  checkIconContainer: {
+    marginRight: (widthsize * 3) / 100,
+    padding: (widthsize * 3) / 100,
   },
 });
 

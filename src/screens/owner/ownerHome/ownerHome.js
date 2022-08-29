@@ -30,6 +30,13 @@ const OwnerHome = () => {
       {/* rest container */}
       <View style={styles.restContainer}>
         <Text>Owner Home page</Text>
+
+        <Text
+          onPress={() => navigation.navigate("ownernew")}
+          style={{ marginTop: (heightsize * 10) / 100 }}
+        >
+          Go to Owner New Page
+        </Text>
       </View>
     </View>
   );

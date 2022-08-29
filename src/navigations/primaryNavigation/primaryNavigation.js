@@ -9,20 +9,17 @@ import { LogoutAlert } from "../../component";
 
 const Stack = createNativeStackNavigator();
 
-// screen option for stack navigators
-const stackScreenOptions = {
-  headerShown: false,
-  gestureEnabled: false,
-  cardOverlayEnabled: true,
-  animation: "slide_from_right",
-};
-
 const PrimaryNavigation = (props) => {
   return (
     <Stack.Navigator
       initialRouteName={props.value}
       headerMode="none"
-      screenOptions={stackScreenOptions}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: true,
+        animation: "slide_from_right",
+      }}
     >
       <Stack.Screen name="intro" component={Intro} />
       <Stack.Screen name="auth" component={AuthNavigation} />

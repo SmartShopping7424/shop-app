@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
 
-const OwnerProfile = () => {
+const OwnerNew = () => {
   const navigation = useNavigation();
 
   return (
@@ -24,12 +24,12 @@ const OwnerProfile = () => {
           onPress={() => navigation.goBack()}
         />
         {/* text */}
-        <Text style={styles.headerText}>Profile</Text>
+        <Text style={styles.headerText}>Owner New Page</Text>
       </View>
 
       {/* rest container */}
       <View style={styles.restContainer}>
-        <Text>Owner Profile page</Text>
+        <Text>Owner New page</Text>
       </View>
     </View>
   );
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OwnerProfile;
+export default OwnerNew;
