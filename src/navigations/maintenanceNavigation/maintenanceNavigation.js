@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MaintenanceHome } from "../../screens";
+import { MaintenanceHome, MaintenanceProduct } from "../../screens";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +17,7 @@ const MaintenanceNavigation = () => {
       }}
     >
       <Stack.Screen name="maintenancehome" component={MaintenanceHome} />
+      <Stack.Screen name="maintenanceproduct" component={MaintenanceProduct} />
     </Stack.Navigator>
   );
 };

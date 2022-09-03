@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { StatusBar } from "expo-status-bar";
@@ -23,11 +24,30 @@ const SecurityBill = () => {
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [productData, setProductData] = useState([]);
   const [itemIndex, setItemIndex] = useState([]);
+  const [allCheck, setAllCheck] = useState(false);
+
+  // use effect for back press handler
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+    };
+  }, [allCheck]);
 
   // fetch data
   useEffect(() => {
     fetchData();
   }, []);
+
+  // handle back action
+  const backAction = () => {
+    if (allCheck) {
+      return true;
+    } else {
+      errorToast("Please check all the products");
+      return true;
+    }
+  };
 
   // fetch data from order
   const fetchData = async () => {
@@ -62,6 +82,9 @@ const SecurityBill = () => {
     }
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     setProductData([...arr]);
+    if (itemIndex.length + 1 == productData.length) {
+      setAllCheck(true);
+    }
   };
 
   // if render false
@@ -139,10 +162,10 @@ const SecurityBill = () => {
                         productData.length - 1,
                         item.id
                       );
-                    } else if (itemIndex.length == productData.length) {
-                      warningToast("All items has been checked");
+                    } else if (allCheck) {
+                      warningToast("All products has been checked");
                     } else {
-                      errorToast("Already checked");
+                      errorToast("Product is already checked");
                     }
                   }}
                 >
@@ -175,9 +198,15 @@ const SecurityBill = () => {
 
           {/* button view */}
           <TouchableOpacity
-            style={styles.doneButtonView}
+            style={[
+              styles.doneButtonView,
+              {
+                backgroundColor: allCheck ? colors.blue : colors.gray,
+              },
+            ]}
             activeOpacity={0.6}
             delayPressIn={0}
+            disabled={allCheck ? false : true}
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.doneButtonText}>Done</Text>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
@@ -8,6 +8,7 @@ import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
 import { CameraScan, LogoutAlert } from "../../../component";
 import { getCameraPermission } from "../../../utils/helper";
+import barcode from "../../../../assets/images/barcode.png";
 
 const SecurityHome = () => {
   const navigation = useNavigation();
@@ -36,7 +37,7 @@ const SecurityHome = () => {
 
       {/* scan button */}
       <TouchableOpacity
-        style={styles.scanButtonView}
+        style={styles.barcodeView}
         activeOpacity={0.6}
         delayPressIn={0}
         onPress={async () => {
@@ -46,7 +47,8 @@ const SecurityHome = () => {
           }
         }}
       >
-        <Text style={styles.scanButtonText}>Scan Bill</Text>
+        <Image source={barcode} style={styles.barcodeLogo} />
+        <Text style={styles.barcodeText}>Checkout Scan</Text>
       </TouchableOpacity>
 
       {/* security details */}
@@ -126,21 +128,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  scanButtonView: {
-    alignSelf: "center",
-    marginTop: (heightsize * 2) / 100,
-    width: (widthsize * 50) / 100,
-    height: (heightsize * 4.5) / 100,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.blue,
-    borderRadius: (widthsize * 2) / 100,
-  },
-  scanButtonText: {
-    fontSize: (widthsize * 3) / 100,
-    fontFamily: "SemiBold",
-    color: colors.white,
-  },
   detailsView: {
     position: "absolute",
     top: (heightsize * 5) / 100,
@@ -166,6 +153,33 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "Regular",
     textAlign: "left",
+    color: colors.black,
+  },
+  barcodeView: {
+    width: (widthsize * 35) / 100,
+    paddingTop: (widthsize * 3) / 100,
+    paddingBottom: (widthsize * 3) / 100,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderRadius: (widthsize * 2) / 100,
+  },
+  barcodeLogo: {
+    width: (widthsize * 20) / 100,
+    height: (widthsize * 20) / 100,
+  },
+  barcodeText: {
+    marginTop: (heightsize * 2) / 100,
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "SemiBold",
     color: colors.black,
   },
 });

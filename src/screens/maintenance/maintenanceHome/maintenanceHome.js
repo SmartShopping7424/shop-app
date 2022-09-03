@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 // import { useNavigation } from "@react-navigation/core";
@@ -8,6 +8,8 @@ import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
 import { CameraScan, LogoutAlert } from "../../../component";
 import { getCameraPermission } from "../../../utils/helper";
+import bag from "../../../../assets/images/bag.png";
+import view_product from "../../../../assets/images/view_product.png";
 
 const MaintenanceHome = () => {
   // const navigation = useNavigation();
@@ -34,9 +36,9 @@ const MaintenanceHome = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.white} animated />
 
-      {/* ean product */}
+      {/* add/update products */}
       <TouchableOpacity
-        style={styles.buttonView}
+        style={styles.cardView}
         activeOpacity={0.6}
         delayPressIn={0}
         onPress={async () => {
@@ -46,17 +48,19 @@ const MaintenanceHome = () => {
           }
         }}
       >
-        <Text style={styles.buttonText}>EAN Product</Text>
+        <Image source={bag} style={styles.cardLogo} />
+        <Text style={styles.cardText}>Add / Update Products</Text>
       </TouchableOpacity>
 
-      {/* create barcode */}
+      {/* view products */}
       <TouchableOpacity
-        style={[styles.buttonView, { marginTop: (heightsize * 2) / 100 }]}
+        style={[styles.cardView, { marginTop: (heightsize * 5) / 100 }]}
         activeOpacity={0.6}
         delayPressIn={0}
         onPress={() => null}
       >
-        <Text style={styles.buttonText}>Create Barcode</Text>
+        <Image source={view_product} style={styles.cardLogo} />
+        <Text style={styles.cardText}>View Products</Text>
       </TouchableOpacity>
 
       {/* maintenance details */}
@@ -136,21 +140,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  buttonView: {
-    alignSelf: "center",
-    marginTop: (heightsize * 2) / 100,
-    width: (widthsize * 50) / 100,
-    height: (heightsize * 4.5) / 100,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.blue,
-    borderRadius: (widthsize * 2) / 100,
-  },
-  buttonText: {
-    fontSize: (widthsize * 3) / 100,
-    fontFamily: "SemiBold",
-    color: colors.white,
-  },
   detailsView: {
     position: "absolute",
     top: (heightsize * 5) / 100,
@@ -176,6 +165,34 @@ const styles = StyleSheet.create({
     fontSize: (widthsize * 3) / 100,
     fontFamily: "Regular",
     textAlign: "left",
+    color: colors.black,
+  },
+  cardView: {
+    width: (widthsize * 35) / 100,
+    paddingTop: (widthsize * 3) / 100,
+    paddingBottom: (widthsize * 3) / 100,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.white,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderRadius: (widthsize * 2) / 100,
+    overflow: "hidden",
+  },
+  cardLogo: {
+    width: (widthsize * 20) / 100,
+    height: (widthsize * 20) / 100,
+  },
+  cardText: {
+    marginTop: (heightsize * 2) / 100,
+    fontSize: (widthsize * 3) / 100,
+    fontFamily: "SemiBold",
     color: colors.black,
   },
 });
