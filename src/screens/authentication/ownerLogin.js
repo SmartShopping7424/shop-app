@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Keyboard,
+  Animated,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
-import {
-  widthsize,
-  heightsize,
-  statusbarheight,
-} from "../../constant/dimensions";
+import { widthsize, heightsize } from "../../constant/dimensions";
 import colors from "../../constant/colors";
 import logo from "../../../assets/images/logo.png";
 import maintenance_avatar from "../../../assets/images/maintenance_avatar.png";
@@ -17,6 +21,7 @@ const OwnerLogin = () => {
   const navigation = useNavigation();
   const [show, setShow] = useState(true);
   const [err, setErr] = useState(true);
+  const keyboardOffset = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     navigation.addListener("focus", () => {
@@ -24,6 +29,29 @@ const OwnerLogin = () => {
     });
     return () => null;
   }, []);
+
+  // get keyboard listener
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      startAnimation(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", (e) => {
+      startAnimation(0);
+    });
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  // start animation
+  const startAnimation = (toValue) => {
+    Animated.timing(keyboardOffset, {
+      toValue: toValue,
+      duration: 700,
+      useNativeDriver: true,
+    }).start();
+  };
 
   return (
     <View style={styles.container}>
@@ -62,7 +90,12 @@ const OwnerLogin = () => {
       </View>
 
       {/* bottom container */}
-      <View style={styles.bottomContainer}>
+      <Animated.View
+        style={[
+          styles.bottomContainer,
+          { transform: [{ translateY: keyboardOffset }] },
+        ]}
+      >
         {/* maintenance part */}
         <View
           style={[styles.leftCircleView, { display: show ? "flex" : "none" }]}
@@ -104,7 +137,7 @@ const OwnerLogin = () => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -114,20 +147,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  main_login_bg_view: {
+  main_login_bg: {
+    width: widthsize,
     backgroundColor: colors.login_bg,
+    paddingBottom: (heightsize * 5) / 100,
     borderBottomLeftRadius: (widthsize * 8) / 100,
     borderBottomRightRadius: (widthsize * 8) / 100,
-  },
-  main_login_bg: {
-    height: (heightsize * 60) / 100,
-    width: widthsize,
     overflow: "hidden",
   },
   logo: {
     alignSelf: "center",
-    width: (widthsize * 50) / 100,
-    height: (widthsize * 50) / 100,
+    width: (widthsize * 60) / 100,
+    height: (widthsize * 60) / 100,
   },
   termConditionView: {
     marginTop: (heightsize * 5) / 100,
@@ -157,14 +188,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bottomContainer: {
-    marginTop: (heightsize * 20) / 100 - statusbarheight,
+    position: "absolute",
+    bottom: 0,
     width: widthsize,
-    height: (heightsize * 20) / 100,
     flexDirection: "row",
-    alignItems: "flex-end",
     justifyContent: "space-between",
     overflow: "hidden",
-    backgroundColor: colors.white,
   },
   leftCircleView: {
     width: (widthsize * 35) / 100,
