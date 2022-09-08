@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-// import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { heightsize, widthsize } from "../../../constant/dimensions";
 import colors from "../../../constant/colors";
@@ -12,7 +12,7 @@ import bag from "../../../../assets/images/bag.png";
 import view_product from "../../../../assets/images/view_product.png";
 
 const MaintenanceHome = () => {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const [showLogout, setShowLogout] = useState(false);
   const [showScanner, setShowScaner] = useState(false);
   const [userId, setUserId] = useState("");
@@ -41,12 +41,15 @@ const MaintenanceHome = () => {
         style={styles.cardView}
         activeOpacity={0.6}
         delayPressIn={0}
-        onPress={async () => {
-          const permission = await getCameraPermission();
-          if (permission) {
-            setShowScaner(true);
-          }
-        }}
+        onPress={() =>
+          navigation.navigate("maintenanceproduct", { qr: "data" })
+        }
+        // onPress={async () => {
+        //   const permission = await getCameraPermission();
+        //   if (permission) {
+        //     setShowScaner(true);
+        //   }
+        // }}
       >
         <Image source={bag} style={styles.cardLogo} />
         <Text style={styles.cardText}>Add / Update Products</Text>
@@ -103,7 +106,7 @@ const MaintenanceHome = () => {
           }}
           onData={(data) => {
             setShowScaner(false);
-            console.log(data);
+            navigation.navigate("maintenanceproduct", { qr: data });
           }}
         />
       ) : (

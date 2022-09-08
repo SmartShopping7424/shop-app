@@ -15,10 +15,10 @@ const colors = {
   error_txt: "#cf1717",
   warning_bg: "#ffe6cc",
   warning_txt: "#e67700",
-  cream: "#ffffea",
   intro_2: "#F38C8C",
   intro_3: "#76A1F9",
   intro_4: "#58BC82",
+  blue_1: "#2369f6",
 };
 
 export default colors;

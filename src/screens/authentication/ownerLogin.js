@@ -25,74 +25,84 @@ const OwnerLogin = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.login_bg} animated />
 
-      {/* background image */}
       <View style={styles.main}>
-        {/* logo */}
-        <Image source={logo} style={styles.logo} resizeMode="contain" />
+        {/* background image */}
+        <View style={styles.main_login_bg}>
+          {/* logo */}
+          <Image source={logo} style={styles.logo} resizeMode="contain" />
 
-        {/* login with mobile */}
-        <Mobile setShow={(value) => setShow(value)} err={err} />
+          {/* login with mobile */}
+          <Mobile setShow={(value) => setShow(value)} err={err} />
 
-        {/* term and condition text */}
-        <View
-          style={[
-            styles.termConditionView,
-            { display: show ? "flex" : "none" },
-          ]}
-        >
-          <Text style={styles.titleText}>By continuing, you agree to our</Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text onPress={() => null} style={styles.subtitleText}>
-              Terms and Conditions
+          {/* term and condition text */}
+          <View
+            style={[
+              styles.termConditionView,
+              { display: show ? "flex" : "none" },
+            ]}
+          >
+            <Text style={styles.titleText}>
+              By continuing, you agree to our
             </Text>
-            <Text style={styles.subtitleSign}>&</Text>
-            <Text onPress={() => null} style={styles.subtitleText}>
-              Privacy Policy
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text onPress={() => null} style={styles.subtitleText}>
+                Terms and Conditions
+              </Text>
+              <Text style={styles.subtitleSign}>&</Text>
+              <Text onPress={() => null} style={styles.subtitleText}>
+                Privacy Policy
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      {/* maintenance part */}
-      <View
-        style={[styles.leftCircleView, { display: show ? "flex" : "none" }]}
-      >
-        <TouchableOpacity
-          style={styles.maintenanceLogoView}
-          activeOpacity={0.6}
-          delayPressIn={0}
-          onPress={() => {
-            setErr(false);
-            navigation.navigate("maintenancelogin");
-          }}
-        >
-          <Image
-            source={maintenance_avatar}
-            style={styles.maintenanceLogo}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
+        {/* bottom container */}
+        <View style={styles.bottomContainer}>
+          {/* maintenance part */}
+          <View
+            style={[styles.leftCircleView, { display: show ? "flex" : "none" }]}
+          >
+            <TouchableOpacity
+              style={styles.maintenanceLogoView}
+              activeOpacity={0.6}
+              delayPressIn={0}
+              onPress={() => {
+                setErr(false);
+                navigation.navigate("maintenancelogin");
+              }}
+            >
+              <Image
+                source={maintenance_avatar}
+                style={styles.maintenanceLogo}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
 
-      {/* security part */}
-      <View
-        style={[styles.rightCircleView, { display: show ? "flex" : "none" }]}
-      >
-        <TouchableOpacity
-          style={styles.securityLogoView}
-          activeOpacity={0.6}
-          delayPressIn={0}
-          onPress={() => {
-            setErr(false);
-            navigation.navigate("securitylogin");
-          }}
-        >
-          <Image
-            source={security_avatar}
-            style={styles.securityLogo}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+          {/* security part */}
+          <View
+            style={[
+              styles.rightCircleView,
+              { display: show ? "flex" : "none" },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.securityLogoView}
+              activeOpacity={0.6}
+              delayPressIn={0}
+              onPress={() => {
+                setErr(false);
+                navigation.navigate("securitylogin");
+              }}
+            >
+              <Image
+                source={security_avatar}
+                style={styles.securityLogo}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -104,8 +114,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   main: {
-    backgroundColor: colors.login_bg,
+    height: heightsize,
     width: widthsize,
+  },
+  main_login_bg: {
+    width: widthsize,
+    backgroundColor: colors.login_bg,
     paddingBottom: (heightsize * 4) / 100,
     borderBottomLeftRadius: (widthsize * 8) / 100,
     borderBottomRightRadius: (widthsize * 8) / 100,
@@ -142,13 +156,16 @@ const styles = StyleSheet.create({
     color: colors.blue,
     textAlign: "center",
   },
+  bottomContainer: {
+    flex: 1,
+    alignItems: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   leftCircleView: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: (widthsize * 35) / 100,
-    height: (widthsize * 35) / 100,
-    borderTopRightRadius: (widthsize * 35) / 100,
+    width: (widthsize * 33) / 100,
+    height: (widthsize * 45) / 100,
+    borderTopRightRadius: (widthsize * 38) / 100,
     overflow: "hidden",
     backgroundColor: colors.left_circle_bg,
     alignItems: "center",
@@ -157,20 +174,16 @@ const styles = StyleSheet.create({
   maintenanceLogoView: {
     alignItems: "center",
     justifyContent: "center",
-    marginRight: (widthsize * 6) / 100,
-    marginTop: (heightsize * 2) / 100,
+    marginRight: (widthsize * 5) / 100,
   },
   maintenanceLogo: {
-    width: (widthsize * 22) / 100,
-    height: (widthsize * 22) / 100,
+    width: (widthsize * 23) / 100,
+    height: (widthsize * 23) / 100,
   },
   rightCircleView: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: (widthsize * 35) / 100,
-    height: (widthsize * 35) / 100,
-    borderTopLeftRadius: (widthsize * 35) / 100,
+    width: (widthsize * 33) / 100,
+    height: (widthsize * 45) / 100,
+    borderTopLeftRadius: (widthsize * 38) / 100,
     overflow: "hidden",
     backgroundColor: colors.right_circle_bg,
     alignItems: "center",
@@ -179,12 +192,11 @@ const styles = StyleSheet.create({
   securityLogoView: {
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: (widthsize * 6) / 100,
-    marginTop: (heightsize * 2) / 100,
+    marginLeft: (widthsize * 5) / 100,
   },
   securityLogo: {
-    width: (widthsize * 22) / 100,
-    height: (widthsize * 22) / 100,
+    width: (widthsize * 23) / 100,
+    height: (widthsize * 23) / 100,
   },
 });
 
