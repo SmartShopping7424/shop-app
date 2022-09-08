@@ -41,15 +41,12 @@ const MaintenanceHome = () => {
         style={styles.cardView}
         activeOpacity={0.6}
         delayPressIn={0}
-        onPress={() =>
-          navigation.navigate("maintenanceproduct", { qr: "data" })
-        }
-        // onPress={async () => {
-        //   const permission = await getCameraPermission();
-        //   if (permission) {
-        //     setShowScaner(true);
-        //   }
-        // }}
+        onPress={async () => {
+          const permission = await getCameraPermission();
+          if (permission) {
+            setShowScaner(true);
+          }
+        }}
       >
         <Image source={bag} style={styles.cardLogo} />
         <Text style={styles.cardText}>Add / Update Products</Text>
